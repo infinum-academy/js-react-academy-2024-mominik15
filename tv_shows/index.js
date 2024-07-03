@@ -18,10 +18,19 @@ function createReviewItem(review) {
     reviewTextItemElement.textContent = review.text;
     reviewItemElement.appendChild(reviewTextItemElement);
 
+    const reviewFoterItemElement = document.createElement('div');
+    reviewFoterItemElement.classList = ['review-footer-item'];
+    reviewItemElement.appendChild(reviewFoterItemElement);
+
     const reviewRatingItemElement = document.createElement('div');
     reviewRatingItemElement.classList = ['review-rating-item'];
     reviewRatingItemElement.textContent = review.rating.toString().concat('/5');
-    reviewItemElement.appendChild(reviewRatingItemElement);
+    reviewFoterItemElement.appendChild(reviewRatingItemElement);
+
+    const deleteReviewButtonElement = document.createElement('button');
+    deleteReviewButtonElement.classList = ['delete-review-button'];
+    deleteReviewButtonElement.textContent = 'Delete';
+    reviewFoterItemElement.appendChild(deleteReviewButtonElement);
 
     return reviewItemElement
 }
@@ -33,6 +42,17 @@ function renderReviewList() {
     mockReviews.forEach((review) => {
         reviewListElement.appendChild(createReviewItem(review));
     });
+}
+
+function saveToLocalStorage(reviewList) {
+    const reviewListString = JSON.stringify(reviewList);
+    localStorage.setItem('review-list', reviewListString);
+}
+
+function loadFromLocalStorage() {
+    const reviewListString = localStorage.getItem('review-list');
+    const reviewList = JSON.parse(reviewListString);
+    return reviewList;
 }
 
 renderReviewList();

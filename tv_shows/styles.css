@@ -93,3 +93,26 @@ button {
 .review-text-item {
     margin-bottom: 20px;
 }
+
+.review-footer-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.delete-review-button {
+    background-color: rgb(102, 26, 39);
+    color: white;
+}
+
+.delete-review-button:hover {
+    background-color: rgb(159, 36, 57);
+    color: #2e0033;
+}
+
+.delete-review-button:active {
+    background-color: rgb(144, 12, 34);
+    color: #2e0033;
+    transform: translateY(2px) translateX(2px);
+}
