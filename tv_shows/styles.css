@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    width: 100%;
+    background-color: #2e0033;
+    color: white;
+
+}
+
+#page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-family: Arial;
+}
+
+#show-preview {
+    border: none;
+    border-color: white;
+    border-radius: 20px;
+    background-color: white;
+    color: #2e0033;
+}
+
+#dark-image {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+#show-description {
+    margin: 20px;
+}
+
+#reviews {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.review-field {
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#review-text {
+    min-height: 100px;
+    vertical-align: top;
+    font-family: sans-serif;
+    max-width: 100%;
+    min-width: 100%;
+}
+
+#review-rating {
+    width: 150px;
+}
+
+button {
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#post-button {
+    width: 75px;
+}
+
+#post-button:hover {
+    background-color:rgb(104, 75, 131);
+    color: white;
+}
+
+#post-button:active {
+    background-color:rgb(79, 55, 101);
+    color: white;
+    transform: translateY(2px) translateX(2px);
+}
+
+.review-item {
+    background-color: #402244;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.review-text-item {
+    margin-bottom: 20px;
+}
