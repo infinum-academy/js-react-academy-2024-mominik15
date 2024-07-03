@@ -20,9 +20,8 @@ body {
 
 #show-preview {
     border: none;
-    border-color: white;
     border-radius: 20px;
-    background-color: white;
+    background-color: #9f7289;
     color: #2e0033;
 }
 
@@ -33,6 +32,10 @@ body {
 
 #show-description {
     margin: 20px;
+}
+
+#average-rating {
+    margin-top: 5px;
 }
 
 #reviews {
@@ -47,16 +50,33 @@ body {
     padding: 10px;
 }
 
+#add-review-area {
+    border: none;
+    border-radius: 10px;
+    background-color: #402244;
+    padding: 10px;
+}
+
 #review-text {
     min-height: 100px;
     vertical-align: top;
     font-family: sans-serif;
     max-width: 100%;
     min-width: 100%;
+    background-color: #9f7289;
 }
 
-#review-rating {
-    width: 150px;
+.empty-selector-star {
+    height: 22px;
+    margin: -1px;
+}
+
+#post-rating-footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
 }
 
 button {
@@ -67,16 +87,18 @@ button {
 }
 
 #post-button {
-    width: 75px;
+    width: 60px;
+    background-color: rgb(33, 67, 33);
+    color: white;
 }
 
 #post-button:hover {
-    background-color:rgb(104, 75, 131);
+    background-color:rgb(64, 119, 64);
     color: white;
 }
 
 #post-button:active {
-    background-color:rgb(79, 55, 101);
+    background-color:rgb(35, 123, 35);
     color: white;
     transform: translateY(2px) translateX(2px);
 }
@@ -101,6 +123,16 @@ button {
     justify-content: space-between;
 }
 
+.review-rating-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.review-rating-value {
+    margin-left: 5px;
+}
+
 .delete-review-button {
     background-color: rgb(102, 26, 39);
     color: white;
@@ -115,4 +147,12 @@ button {
     background-color: rgb(144, 12, 34);
     color: #2e0033;
     transform: translateY(2px) translateX(2px);
+}
+
+.filled-star {
+    height: 22px;
+}
+
+.empty-star {
+    height: 22px;
 }
