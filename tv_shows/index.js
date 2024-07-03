@@ -37,11 +37,29 @@ function createReviewItem(review) {
 
 function renderReviewList() {
     const reviewListElement = document.getElementById('review-list');
-    // reviewListElement.innerHTML = '';
+    reviewListElement.innerHTML = '';
 
     mockReviews.forEach((review) => {
         reviewListElement.appendChild(createReviewItem(review));
     });
+
+    saveToLocalStorage(mockReviews);
+}
+
+function postReview() {
+    const reviewTextArea = document.getElementById('review-text');
+    const reviewRatingInput = document.getElementById('review-rating');
+
+    if (!reviewRatingInput || !reviewTextArea) {
+        return;
+    };
+
+    const newReview = {
+        text: reviewTextArea.value,
+        rating: parseInt(reviewRatingInput.value),
+    };
+    mockReviews.push(newReview);
+    renderReviewList();
 }
 
 function saveToLocalStorage(reviewList) {
@@ -55,4 +73,5 @@ function loadFromLocalStorage() {
     return reviewList;
 }
 
+mockReviews = loadFromLocalStorage();
 renderReviewList();
