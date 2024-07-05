@@ -2,6 +2,7 @@
     <head>
         <title>TV Shows App</title>
         <link rel="stylesheet" href="styles.css">
+        <link rel="icon" type="image/png" href="images/tv_icon.png">
     </head>
     <body>
         <div id="page-container">
@@ -16,18 +17,13 @@
                     <div id="average-rating"></div>
                 </div>
             </div>
+
             <div id="reviews">
                 <h2>Reviews</h2>
                 <div id="add-review-area">
                     <textarea id="review-text" class="review-field" placeholder="Add review..."></textarea>
                     <div id="post-rating-footer">
-                        <div id="review-rating-2">
-                            <img id="star-1" src="images/empty_star.png" alt="star" class="empty-selector-star" onmouseover="selectStars(1, false)" onmouseout="unhoverStars()" onclick="selectStars(1, true)" />
-                            <img id="star-2" src="images/empty_star.png" alt="star" class="empty-selector-star" onmouseover="selectStars(2, false)" onmouseout="unhoverStars()" onclick="selectStars(2, true)" />
-                            <img id="star-3" src="images/empty_star.png" alt="star" class="empty-selector-star" onmouseover="selectStars(3, false)" onmouseout="unhoverStars()" onclick="selectStars(3, true)" />
-                            <img id="star-4" src="images/empty_star.png" alt="star" class="empty-selector-star" onmouseover="selectStars(4, false)" onmouseout="unhoverStars()" onclick="selectStars(4, true)" />
-                            <img id="star-5" src="images/empty_star.png" alt="star" class="empty-selector-star" onmouseover="selectStars(5, false)" onmouseout="unhoverStars()" onclick="selectStars(5, true)" />
-                        </div>
+                        <div id="review-rating-2"></div>
                         <button id="post-button" onclick="postReview()">Post</button>
                     </div>
                 </div>
