@@ -1,3 +1,4 @@
+import { ShowImage } from "@/components/core/ShowImage/ShowImage";
 import { IShow } from "@/typings/Show";
 import { Flex, Heading, Image, Text } from "@chakra-ui/react";
 
@@ -13,13 +14,9 @@ export const ShowDetails = ({ show }: IShowDetails) => {
             color='white'
             border='none'
             borderRadius={10}
+            marginBottom={7}
         >
-            <Image
-                src={show.imageUrl}
-                alt={show.title}
-                border='none'
-                borderTopRadius={10}
-            />
+            <ShowImage url={show.imageUrl} title={show.title} />
             <Flex direction='column' padding={5}>
                 <Heading>{show.title}</Heading>
                 <Text>{show.description}</Text>
