@@ -4,9 +4,10 @@ import { Flex, Heading, Image, Text } from "@chakra-ui/react";
 
 interface IShowDetails {
     show: IShow;
+    hasReviews: boolean;
 }
 
-export const ShowDetails = ({ show }: IShowDetails) => {
+export const ShowDetails = ({ show, hasReviews }: IShowDetails) => {
     return (
         <Flex
             direction='column'
@@ -20,7 +21,8 @@ export const ShowDetails = ({ show }: IShowDetails) => {
             <Flex direction='column' padding={5}>
                 <Heading>{show.title}</Heading>
                 <Text>{show.description}</Text>
-                <Text>{show.averageRating}</Text>
+                { hasReviews && <Text>{show.averageRating}</Text> }
+                { !hasReviews && <Text as='i'>No ratings</Text> }
             </Flex>
         </Flex>
     );

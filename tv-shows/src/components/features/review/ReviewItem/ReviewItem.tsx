@@ -3,9 +3,10 @@ import { Button, Flex, Text } from "@chakra-ui/react";
 
 interface IReviewItemProps {
     reviewItem: IReviewItem;
+    onDeleteReview: (review : IReviewItem) => void;
 }
 
-export const ReviewItem = ({ reviewItem }: IReviewItemProps) => {
+export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => {
     return (
         <Flex
             background='#3d363d'
@@ -22,7 +23,7 @@ export const ReviewItem = ({ reviewItem }: IReviewItemProps) => {
                 alignItems='center'
             >
                 <Text>{reviewItem.rating}/5</Text>
-                <Button colorScheme="red">Delete</Button>
+                <Button colorScheme="red" onClick={() => onDeleteReview(reviewItem)}>Delete</Button>
             </Flex>
         </Flex>
     );
