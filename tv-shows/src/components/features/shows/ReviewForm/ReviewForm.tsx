@@ -1,6 +1,23 @@
+import { IReviewItem } from "@/typings/Review";
 import { Button, Flex, Input, Textarea } from "@chakra-ui/react";
 
-export const ReviewForm = () => {
+interface IReviewFormProps {
+    onAddReview: (review: IReviewItem) => void;
+};
+
+export const ReviewForm = ({ onAddReview }: IReviewFormProps) => {
+    const onClick = () => {
+        const textareaElement = document.getElementById('review-textarea') as HTMLTextAreaElement;
+        const reviewText = textareaElement.value;
+        const inputElement = document.getElementById('rating-input') as HTMLInputElement;
+        const ratingValue = parseInt(inputElement.value);
+        const newReview: IReviewItem = {
+            text: reviewText,
+            rating: ratingValue,
+        };
+        onAddReview(newReview);
+    };
+
     return (
         <Flex
             background='#3d363d'
@@ -17,6 +34,7 @@ export const ReviewForm = () => {
                 placeholder='Add review...'
                 borderColor='#352a36'
                 focusBorderColor='#554157'
+                id='review-textarea'
             />
             <Flex marginTop={2}
                 direction='row'
@@ -29,8 +47,9 @@ export const ReviewForm = () => {
                     placeholder='Add rating...'
                     borderColor='#352a36'
                     focusBorderColor='#554157'
+                    id='rating-input'
                 ></Input>
-                <Button colorScheme="purple">Post</Button>
+                <Button colorScheme="purple" onClick={onClick}>Post</Button>
             </Flex>
         </Flex>
     );
