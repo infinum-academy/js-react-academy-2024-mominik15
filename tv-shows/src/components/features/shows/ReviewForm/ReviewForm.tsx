@@ -5,6 +5,11 @@ interface IReviewFormProps {
     onAddReview: (review: IReviewItem) => void;
 };
 
+const mockUser = {
+    email: 'mock.user@mail.com',
+    avatarUrl: 'https://fakeimg.pl/30x30/854d85/909090?text=User',
+};
+
 export const ReviewForm = ({ onAddReview }: IReviewFormProps) => {
     const onClick = () => {
         const textareaElement = document.getElementById('review-textarea') as HTMLTextAreaElement;
@@ -14,6 +19,7 @@ export const ReviewForm = ({ onAddReview }: IReviewFormProps) => {
         const newReview: IReviewItem = {
             text: reviewText,
             rating: ratingValue,
+            user: mockUser
         };
         onAddReview(newReview);
     };

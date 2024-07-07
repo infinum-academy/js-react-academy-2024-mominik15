@@ -1,34 +1,39 @@
-import { Heading } from "@chakra-ui/react";
-import styles from "../../index.module.css";
 import { ShowDetails } from "@/components/features/shows/ShowDetails/ShowDetails";
 import { ShowReviewSection } from "@/components/features/shows/ShowReviewSection/ShowReviewSection";
 import { IReviewItem, IReviewList } from "@/typings/Review";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { IShow } from "@/typings/Show";
 
-const mockShow =
-    {
-        title: 'Dark',
-        description: 'My description',
-        averageRating: 5,
-        imageUrl: 'https://dark.netflix.io/share/global.png'
-    };
+const mockShow = {
+    title: 'Dark',
+    description: 'My description',
+    averageRating: 5,
+    imageUrl: 'https://dark.netflix.io/share/global.png'
+};
 
-const mockReviewList : IReviewList = {
+const allReviewList : IReviewList = {
     reviews: [
         {
             text: 'This is the best show I\'ve ever seen!',
             rating: 5,
+            user: {
+                email: 'user1@mail.com',
+                avatarUrl: 'https://fakeimg.pl/30x30/854d85/909090?text=User',
+            },
         },
         {
             text: 'Wow! Everything is connected, indeed!',
             rating: 5,
+            user: {
+                email: 'user2@mail.com',
+                avatarUrl: 'https://fakeimg.pl/30x30/854d85/909090?text=User',
+            },
         },
     ]
 };
 
-export default function Show() {
-    const [reviewList, setReviewList] = useState(mockReviewList);
+export default function ShowContainer() {
+    const [reviewList, setReviewList] = useState(allReviewList);
     const [show, setShow] = useState(mockShow);
 
     const saveToLocalStorage = (reviewList: IReviewList) => {
@@ -38,7 +43,7 @@ export default function Show() {
     const loadFromLocalStorage = () => {
         const reviewListString = localStorage.getItem('reviewList');
         if(!reviewListString) {
-            return mockReviewList;
+            return allReviewList;
         }
         return JSON.parse(reviewListString);
     };
@@ -58,10 +63,6 @@ export default function Show() {
             averageRating: newAverageRating,
             imageUrl: show.imageUrl
         };
-        console.log(ratingSum);
-        console.log(numberOfRatings);
-        console.log(newAverageRating);
-        console.log(newShow);
         setShow(newShow);
     };
 
@@ -85,9 +86,9 @@ export default function Show() {
     const hasReviews = reviewList.reviews.length > 0;
 
     return (
-        <main className={styles.main}>
+        <Fragment>
             <ShowDetails show={show} hasReviews={hasReviews}></ShowDetails>
             <ShowReviewSection reviewList={reviewList} onAddReview={onAddReview} onDeleteReview={onDeleteReview} />
-        </main>
+        </Fragment>
     );
 }

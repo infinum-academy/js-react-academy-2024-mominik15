@@ -1,5 +1,7 @@
 import { IReviewItem } from "@/typings/Review";
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Button, Flex, Image, Text } from "@chakra-ui/react";
+import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
+import fullStar from '../../../shared/images/full_star.png';
 
 interface IReviewItemProps {
     reviewItem: IReviewItem;
@@ -8,23 +10,31 @@ interface IReviewItemProps {
 
 export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => {
     return (
-        <Flex
+        <Card
+            direction='column'
             background='#3d363d'
             width='100%'
-            padding={2}
             borderRadius={10}
-            direction='column'
             color='white'
         >
-            <Text>{reviewItem.text}</Text>
-            <Flex marginTop={2}
-                direction='row'
-                justifyContent='space-between'
-                alignItems='center'
-            >
-                <Text>{reviewItem.rating}/5</Text>
+            <CardHeader display='flex' margin='0' padding={1.5}>
+                <Image alt='user' src={reviewItem.user.avatarUrl} borderRadius={4} marginRight={2} />
+                <Text as='i'>{reviewItem.user.email}</Text>
+            </CardHeader>
+            <CardBody padding={1.5}>
+                <Text>{reviewItem.text}</Text>
+            </CardBody>
+            <CardFooter justifyContent='space-between' alignItems='center' padding={1.5}>
+                <Flex>
+                    { Array.from(Array(reviewItem.rating).keys()).map((n) => {
+                        return <Image alt='full_star' key={n} src='/full_star.png' width={5} />
+                    })}
+                    { Array.from(Array(5-reviewItem.rating).keys()).map((n) => {
+                        return <Image alt='empty_star' key={n} src='/empty_star.png' width={5} />
+                    })}
+                </Flex>
                 <Button colorScheme="red" onClick={() => onDeleteReview(reviewItem)}>Delete</Button>
-            </Flex>
-        </Flex>
+            </CardFooter>
+        </Card>
     );
 }
