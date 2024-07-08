@@ -1,5 +1,7 @@
+import { InputStar } from "@/components/core/InputStar/InputStar";
 import { IReviewItem } from "@/typings/Review";
 import { Button, Flex, Input, Textarea } from "@chakra-ui/react";
+import { use, useState } from "react";
 
 interface IReviewFormProps {
     onAddReview: (review: IReviewItem) => void;
@@ -11,14 +13,19 @@ const mockUser = {
 };
 
 export const ReviewForm = ({ onAddReview }: IReviewFormProps) => {
+    const [comment, setComment] = useState(''); // isto i za rating
+    const [selectedStars, setSelectedStars] = useState(0);
+    const [hoveredStars, setHoveredStars] = useState(0);
+
     const onClick = () => {
-        const textareaElement = document.getElementById('review-textarea') as HTMLTextAreaElement;
-        const reviewText = textareaElement.value;
-        const inputElement = document.getElementById('rating-input') as HTMLInputElement;
-        const ratingValue = parseInt(inputElement.value);
+        if(!comment || !selectedStars) {
+            alert('Both comment and rating need to be filled!');
+            return;
+        };
+
         const newReview: IReviewItem = {
-            text: reviewText,
-            rating: ratingValue,
+            text: comment,
+            rating: selectedStars,
             user: mockUser
         };
         onAddReview(newReview);
@@ -34,6 +41,8 @@ export const ReviewForm = ({ onAddReview }: IReviewFormProps) => {
             marginBottom={6}
         >
             <Textarea
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
                 background='#7c727d'
                 color='black'
                 resize='vertical'
@@ -46,15 +55,24 @@ export const ReviewForm = ({ onAddReview }: IReviewFormProps) => {
                 direction='row'
                 justifyContent='space-between'
             >
-                <Input
-                    maxWidth='20%'
-                    background='#7c727d'
-                    color='black'
-                    placeholder='Add rating...'
-                    borderColor='#352a36'
-                    focusBorderColor='#554157'
-                    id='rating-input'
-                ></Input>
+                <Flex>
+                    { Array(5).fill(1).map((_n, index) => {
+                        let filledStars = selectedStars;
+                        if (hoveredStars) {
+                            filledStars = hoveredStars;
+                        }
+
+                        return (
+                            <InputStar
+                                key={index}
+                                filled={index < filledStars}
+                                onHovered={() => setHoveredStars(index + 1)}
+                                onUnhovered={() => setHoveredStars(0)}
+                                onClicked={() => setSelectedStars(index + 1)}
+                            />
+                        );
+                    })}
+                </Flex>
                 <Button colorScheme="purple" onClick={onClick}>Post</Button>
             </Flex>
         </Flex>

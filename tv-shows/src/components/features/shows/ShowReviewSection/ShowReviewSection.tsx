@@ -12,10 +12,10 @@ interface IShowReviewSectionProps {
 
 export const ShowReviewSection = ({reviewList, onAddReview, onDeleteReview} : IShowReviewSectionProps) => {
     return (
-        <Fragment>
+        <>
             <Heading color='white' size='lg' marginBottom={2}>Reviews</Heading>
             <ReviewForm onAddReview={onAddReview}/>
             <ReviewList reviewList={reviewList} onDeleteReview={onDeleteReview} />
-        </Fragment>
+        </>
     );
 };

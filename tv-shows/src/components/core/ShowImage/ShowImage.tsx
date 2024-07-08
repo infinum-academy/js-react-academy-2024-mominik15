@@ -14,6 +14,6 @@ export const ShowImage = ({ url, title }: IShowImage) => {
             alt={title}
             border='none'
             borderTopRadius={10}
-        ></Image>
+        />
     );
 }

@@ -26,11 +26,11 @@ export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => 
             </CardBody>
             <CardFooter justifyContent='space-between' alignItems='center' padding={1.5}>
                 <Flex>
-                    { Array.from(Array(reviewItem.rating).keys()).map((n) => {
-                        return <Image alt='full_star' key={n} src='/full_star.png' width={5} />
+                    { Array(reviewItem.rating).fill(1).map((_n, index) => {
+                        return <Image alt='full_star' key={index} src='/full_star.png' width={5} />
                     })}
-                    { Array.from(Array(5-reviewItem.rating).keys()).map((n) => {
-                        return <Image alt='empty_star' key={n} src='/empty_star.png' width={5} />
+                    { Array(5 - reviewItem.rating).fill(1).map((_n, index) => {
+                        return <Image alt='empty_star' key={index} src='/empty_star.png' width={5} />
                     })}
                 </Flex>
                 <Button colorScheme="red" onClick={() => onDeleteReview(reviewItem)}>Delete</Button>

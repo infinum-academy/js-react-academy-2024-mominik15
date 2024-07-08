@@ -6,7 +6,7 @@ import { IShow } from "@/typings/Show";
 
 const mockShow = {
     title: 'Dark',
-    description: 'My description',
+    description: 'A family saga with a supernatural twist, set in a German town where the disappearance of two young children exposes the relationships among four families.',
     averageRating: 5,
     imageUrl: 'https://dark.netflix.io/share/global.png'
 };
@@ -33,6 +33,12 @@ const allReviewList : IReviewList = {
 };
 
 export default function ShowContainer() {
+    useEffect(() => {
+        const loadedList = loadFromLocalStorage();
+        updateAverageRating(loadedList);
+        setReviewList(loadedList);
+    }, []);
+
     const [reviewList, setReviewList] = useState(allReviewList);
     const [show, setShow] = useState(mockShow);
 
@@ -47,11 +53,6 @@ export default function ShowContainer() {
         }
         return JSON.parse(reviewListString);
     };
-
-    useEffect(() => {
-        const loadedList = loadFromLocalStorage();
-        setReviewList(loadedList);
-    }, []);
 
     const updateAverageRating = (newReviewList : IReviewList) => {
         const ratingSum = newReviewList.reviews.reduce((sum, review) => sum + review.rating, 0);
@@ -80,6 +81,7 @@ export default function ShowContainer() {
             reviews: reviewList.reviews.filter((review) => review !== reviewToDelete ),
         };
         setReviewList(newReviewList);
+        updateAverageRating(newReviewList);
         saveToLocalStorage(newReviewList);
     };
 
@@ -87,7 +89,7 @@ export default function ShowContainer() {
 
     return (
         <Fragment>
-            <ShowDetails show={show} hasReviews={hasReviews}></ShowDetails>
+            <ShowDetails show={show} hasReviews={hasReviews} />
             <ShowReviewSection reviewList={reviewList} onAddReview={onAddReview} onDeleteReview={onDeleteReview} />
         </Fragment>
     );
