@@ -18,7 +18,7 @@ export const ReviewForm = ({ onAddReview }: IReviewFormProps) => {
     const [hoveredStars, setHoveredStars] = useState(0);
 
     const onClick = () => {
-        if(!comment || !selectedStars) {
+        if(!comment || selectedStars <= 0) {
             alert('Both comment and rating need to be filled!');
             return;
         };
