@@ -3,6 +3,7 @@ import { ShowReviewSection } from "@/components/features/shows/ShowReviewSection
 import { IReviewItem, IReviewList } from "@/typings/Review";
 import { Fragment, useEffect, useState } from "react";
 import { IShow } from "@/typings/Show";
+import { ShowCard } from "@/components/shared/ShowCard/ShowCard";
 
 const mockShow = {
     title: 'Dark',
