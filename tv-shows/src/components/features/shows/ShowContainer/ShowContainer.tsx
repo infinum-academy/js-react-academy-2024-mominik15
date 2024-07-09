@@ -12,24 +12,7 @@ const mockShow = {
 };
 
 const allReviewList : IReviewList = {
-    reviews: [
-        {
-            text: 'This is the best show I\'ve ever seen!',
-            rating: 5,
-            user: {
-                email: 'user1@mail.com',
-                avatarUrl: 'https://fakeimg.pl/30x30/854d85/909090?text=User',
-            },
-        },
-        {
-            text: 'Wow! Everything is connected, indeed!',
-            rating: 5,
-            user: {
-                email: 'user2@mail.com',
-                avatarUrl: 'https://fakeimg.pl/30x30/854d85/909090?text=User',
-            },
-        },
-    ]
+    reviews: []
 };
 
 export default function ShowContainer() {
