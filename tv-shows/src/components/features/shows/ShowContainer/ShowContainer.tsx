@@ -4,6 +4,7 @@ import { IReviewItem, IReviewList } from "@/typings/Review";
 import { Fragment, useEffect, useState } from "react";
 import { IShow } from "@/typings/Show";
 import { ShowCard } from "@/components/shared/ShowCard/ShowCard";
+import { Flex } from "@chakra-ui/react";
 
 const mockShow = {
     title: 'Dark',
@@ -72,9 +73,9 @@ export default function ShowContainer() {
     const hasReviews = reviewList.reviews.length > 0;
 
     return (
-        <Fragment>
+        <Flex direction='column' backgroundColor='#2e0033' position='absolute' marginLeft='300px' padding={10} width={`${window.innerWidth - 300}px`}>
             <ShowDetails show={show} hasReviews={hasReviews} />
             <ShowReviewSection reviewList={reviewList} onAddReview={onAddReview} onDeleteReview={onDeleteReview} />
-        </Fragment>
+        </Flex>
     );
 }

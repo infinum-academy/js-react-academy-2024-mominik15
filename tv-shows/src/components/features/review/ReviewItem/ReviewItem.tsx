@@ -1,5 +1,6 @@
 import { IReviewItem } from "@/typings/Review";
-import { Button, Flex, Image, Text } from "@chakra-ui/react";
+import { Button, Flex, IconButton, Image, Text } from "@chakra-ui/react";
+import { DeleteIcon } from '@chakra-ui/icons';
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
 import fullStar from '../../../shared/images/full_star.png';
 
@@ -33,7 +34,7 @@ export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => 
                         return <Image alt='empty_star' key={index} src='/empty_star.png' width={5} />
                     })}
                 </Flex>
-                <Button colorScheme="red" onClick={() => onDeleteReview(reviewItem)}>Delete</Button>
+                <IconButton aria-label="Delete todo" colorScheme="red" icon={<DeleteIcon />} onClick={() => onDeleteReview(reviewItem)} w="48px" />
             </CardFooter>
         </Card>
     );
