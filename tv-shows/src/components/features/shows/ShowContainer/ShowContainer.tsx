@@ -11,10 +11,6 @@ const mockShow = {
     imageUrl: 'https://dark.netflix.io/share/global.png'
 };
 
-const allReviewList : IReviewList = {
-    reviews: []
-};
-
 export default function ShowContainer() {
     useEffect(() => {
         const loadedList = loadFromLocalStorage();
@@ -22,7 +18,7 @@ export default function ShowContainer() {
         setReviewList(loadedList);
     }, []);
 
-    const [reviewList, setReviewList] = useState(allReviewList);
+    const [reviewList, setReviewList] = useState([]);
     const [show, setShow] = useState(mockShow);
 
     const saveToLocalStorage = (reviewList: IReviewList) => {
@@ -32,7 +28,7 @@ export default function ShowContainer() {
     const loadFromLocalStorage = () => {
         const reviewListString = localStorage.getItem('reviewList');
         if(!reviewListString) {
-            return allReviewList;
+            return [];
         }
         return JSON.parse(reviewListString);
     };
