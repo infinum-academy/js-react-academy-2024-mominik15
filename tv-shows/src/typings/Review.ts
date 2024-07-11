@@ -7,5 +7,5 @@ export interface IReviewItem {
 }
 
 export interface IReviewList {
-    reviews: Array<IReviewItem>
+    reviews: Array<IReviewItem>;
 }

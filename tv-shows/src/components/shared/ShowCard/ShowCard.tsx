@@ -20,6 +20,7 @@ export const ShowCard = ({ imageUrl, title, rating, id } : IShowCard) => {
             onClick={() => {}}
             as={NextLink}
             href={`/all-shows/${id}`}
+            display='inline-grid'
         >
             <CardHeader padding={0}>
                 <Image

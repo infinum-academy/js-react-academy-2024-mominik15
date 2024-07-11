@@ -4,6 +4,7 @@ import { IReviewItem, IReviewList } from "@/typings/Review";
 import { Fragment, useEffect, useState } from "react";
 import { IShow } from "@/typings/Show";
 import { Flex } from "@chakra-ui/react";
+import { useParams } from "next/navigation";
 
 const allReviewList : IReviewList = {
     reviews: []
@@ -22,13 +23,14 @@ export default function ShowContainer({ showProp } : IShowContainerProps) {
 
     const [reviewList, setReviewList] = useState(allReviewList);
     const [show, setShow] = useState(showProp);
+    const params = useParams();
 
     const saveToLocalStorage = (reviewList: IReviewList) => {
-        localStorage.setItem('reviewList', JSON.stringify(reviewList));
+        localStorage.setItem(`reviewList-${params.id}`, JSON.stringify(reviewList));
     };
 
     const loadFromLocalStorage = () => {
-        const reviewListString = localStorage.getItem('reviewList');
+        const reviewListString = localStorage.getItem(`reviewList-${params.id}`);
         if(!reviewListString) {
             return allReviewList;
         }
@@ -50,8 +52,9 @@ export default function ShowContainer({ showProp } : IShowContainerProps) {
     };
 
     const onAddReview = ( review: IReviewItem ) => {
+        const showId = params.id;
         const newReviewList = {
-            reviews: [...reviewList.reviews, review]
+            reviews: [...reviewList.reviews, {...review, showId}]
         };
         setReviewList(newReviewList);
         updateAverageRating(newReviewList);
@@ -70,7 +73,7 @@ export default function ShowContainer({ showProp } : IShowContainerProps) {
     const hasReviews = reviewList.reviews.length > 0;
 
     return (
-        <Flex direction='column' backgroundColor='#2e0033' position='absolute' marginLeft='300px' padding={10} width={`${window.innerWidth - 300}px`}>
+        <Flex direction='column' backgroundColor='#2e0033' position='sticky' flexGrow={1} padding={10}>
             <ShowDetails show={show} hasReviews={hasReviews} />
             <ShowReviewSection reviewList={reviewList} onAddReview={onAddReview} onDeleteReview={onDeleteReview} />
         </Flex>

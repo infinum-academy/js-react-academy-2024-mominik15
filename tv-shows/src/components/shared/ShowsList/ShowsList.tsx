@@ -38,7 +38,20 @@ export const ShowsList = ({ topRated } : IShowsList) => {
     });
 
     return (
-        <Flex display='inline-grid' padding={10} backgroundColor='#2e0033' overflowY='hidden' height='100%' position='absolute' gridAutoColumns='300px' gridAutoFlow='column' gap={5} marginLeft='300px' border='none' width={`${window.innerWidth - 300}px`}>
+        // pogledaj chakra grid component
+        <Flex
+            display='grid'
+            padding={10}
+            backgroundColor='#2e0033'
+            gridAutoColumns='300px'
+            gap={`${(window.innerWidth-300 - 300*Math.floor((window.innerWidth-300)/300))/(Math.floor((window.innerWidth-300)/300) + 1)}`}
+            border='none'
+            gridTemplateColumns= 'repeat(auto-fit, 300px)'
+            flexGrow={1}
+            height='100vh'
+            width='100%'
+            overflow='auto'
+        >
             {shows.map((show, index) => {
                 return <ShowCard key={index} title={show.title} imageUrl={show.imageUrl} rating={show.averageRating} id={show.id} />;
             })}
