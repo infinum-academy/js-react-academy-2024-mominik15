@@ -6,7 +6,7 @@ import { ShowsList } from "@/components/shared/ShowsList/ShowsList";
 export default function Home() {
   return (
     <main className={styles.main}>
-        <ShowsList />
+        <ShowsList topRated={true} />
     </main>
   );
 }

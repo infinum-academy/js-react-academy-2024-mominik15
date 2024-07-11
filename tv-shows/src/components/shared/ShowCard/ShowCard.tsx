@@ -32,7 +32,7 @@ export const ShowCard = ({ imageUrl, title, rating, id } : IShowCard) => {
                 />
             </CardHeader>
             <CardBody flexDirection='column'>
-                <Heading>{title}</Heading>
+                <Heading size='md'>{title}</Heading>
                 <Flex alignItems='center'>
                     <Image src='full_star.png' width={4} height={4} alt='star' marginRight={1}/>
                     <Text>{rating}</Text>

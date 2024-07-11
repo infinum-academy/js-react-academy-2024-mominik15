@@ -3,21 +3,17 @@ import { ShowReviewSection } from "@/components/features/shows/ShowReviewSection
 import { IReviewItem, IReviewList } from "@/typings/Review";
 import { Fragment, useEffect, useState } from "react";
 import { IShow } from "@/typings/Show";
-import { ShowCard } from "@/components/shared/ShowCard/ShowCard";
 import { Flex } from "@chakra-ui/react";
-
-const mockShow = {
-    title: 'Dark',
-    description: 'A family saga with a supernatural twist, set in a German town where the disappearance of two young children exposes the relationships among four families.',
-    averageRating: 5,
-    imageUrl: 'https://dark.netflix.io/share/global.png'
-};
 
 const allReviewList : IReviewList = {
     reviews: []
 };
 
-export default function ShowContainer() {
+interface IShowContainerProps {
+    showProp: IShow;
+}
+
+export default function ShowContainer({ showProp } : IShowContainerProps) {
     useEffect(() => {
         const loadedList = loadFromLocalStorage();
         updateAverageRating(loadedList);
@@ -25,7 +21,7 @@ export default function ShowContainer() {
     }, []);
 
     const [reviewList, setReviewList] = useState(allReviewList);
-    const [show, setShow] = useState(mockShow);
+    const [show, setShow] = useState(showProp);
 
     const saveToLocalStorage = (reviewList: IReviewList) => {
         localStorage.setItem('reviewList', JSON.stringify(reviewList));
@@ -47,7 +43,8 @@ export default function ShowContainer() {
             title: show.title,
             description: show.description,
             averageRating: newAverageRating,
-            imageUrl: show.imageUrl
+            imageUrl: show.imageUrl,
+            id: 1,
         };
         setShow(newShow);
     };
