@@ -6,10 +6,6 @@ import { IShow } from "@/typings/Show";
 import { Flex } from "@chakra-ui/react";
 import { useParams } from "next/navigation";
 
-const allReviewList : IReviewList = {
-    reviews: []
-};
-
 interface IShowContainerProps {
     showProp: IShow;
 }
@@ -21,7 +17,7 @@ export default function ShowContainer({ showProp } : IShowContainerProps) {
         setReviewList(loadedList);
     }, []);
 
-    const [reviewList, setReviewList] = useState(allReviewList);
+    const [reviewList, setReviewList] = useState<IReviewList>({ reviews: [] });
     const [show, setShow] = useState(showProp);
     const params = useParams();
 
@@ -32,7 +28,7 @@ export default function ShowContainer({ showProp } : IShowContainerProps) {
     const loadFromLocalStorage = () => {
         const reviewListString = localStorage.getItem(`reviewList-${params.id}`);
         if(!reviewListString) {
-            return allReviewList;
+            return [];
         }
         return JSON.parse(reviewListString);
     };
