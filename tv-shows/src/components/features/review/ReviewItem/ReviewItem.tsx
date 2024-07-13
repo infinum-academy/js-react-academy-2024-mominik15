@@ -1,8 +1,7 @@
 import { IReviewItem } from "@/typings/Review";
-import { Button, Flex, IconButton, Image, Text } from "@chakra-ui/react";
+import { Flex, IconButton, Image, Text } from "@chakra-ui/react";
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
-import fullStar from '../../../shared/images/full_star.png';
 
 interface IReviewItemProps {
     reviewItem: IReviewItem;

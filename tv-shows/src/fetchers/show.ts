@@ -22,6 +22,5 @@ export function getTopRatedShows() {
 }
 
 export function getShow(id: string) {
-    console.log(`/api/shows/${id}`);
 	return fetcher<IShowResponse>(`/api/shows/${id}`);
 }

@@ -52,9 +52,8 @@ export default function ShowContainer({ showProp } : IShowContainerProps) {
     };
 
     const onAddReview = ( review: IReviewItem ) => {
-        const showId = params.id;
         const newReviewList = {
-            reviews: [...reviewList.reviews, {...review, showId}]
+            reviews: [...reviewList.reviews, review]
         };
         setReviewList(newReviewList);
         updateAverageRating(newReviewList);
