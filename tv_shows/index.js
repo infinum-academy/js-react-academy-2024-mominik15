@@ -111,7 +111,8 @@ function renderAverageRating() {
     });
 
     const averageRating = (ratingsSum/reviewNumber).toFixed(2);
-    averageRatingItem.textContent = averageRating.toString().concat('/5.00');
+    const averageRatingValue = reviewNumber > 0 ? averageRating.toString().concat('/5.00') : 'No ratings';
+    averageRatingItem.textContent = averageRatingValue;
 }
 
 function saveToLocalStorage(reviewList) {
