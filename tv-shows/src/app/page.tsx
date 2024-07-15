@@ -1,12 +1,14 @@
 'use client';
 
-import styles from "./page.module.css";
-import { ShowsList } from "@/components/shared/ShowsList/ShowsList";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-        <ShowsList topRated={false} />
-    </main>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/all-shows');
+  }, [router]); 
+
+  return null;
 }
