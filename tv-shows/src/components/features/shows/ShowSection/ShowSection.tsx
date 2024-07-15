@@ -26,11 +26,11 @@ export default function ShowSection() {
     };
 
     const show = {
-                title: showResponse.title,
-                imageUrl: showResponse.image_url,
-                averageRating: showResponse.average_rating,
-                description: showResponse.description,
-                id: parseInt(showResponse.id)
+                title: showResponse.show.title,
+                imageUrl: showResponse.show.image_url,
+                averageRating: showResponse.show.average_rating,
+                description: showResponse.show.description,
+                id: parseInt(showResponse.show.id)
             } as IShow;
 
     return (
