@@ -32,7 +32,7 @@ export default function ShowContainer({ showProp } : IShowContainerProps) {
     const loadFromLocalStorage = () => {
         const reviewListString = localStorage.getItem(`reviewList-${params.id}`);
         if(!reviewListString) {
-            return [];
+            return { reviews: [] };
         }
         return JSON.parse(reviewListString);
     };
