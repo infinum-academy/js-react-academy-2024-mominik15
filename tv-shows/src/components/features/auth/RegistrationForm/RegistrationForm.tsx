@@ -15,6 +15,7 @@ interface IRegistrationFormInputs {
 
 export const RegistrationForm = () => {
     const [registrationStatus, setRegistrationStatus] = useState('unregistered');
+    const [loading, setLoading] = useState(false);
     const { register, handleSubmit } = useForm<IRegistrationFormInputs>();
     const { trigger } = useSWRMutation(swrKeys.users, mutator, {
         onSuccess: () => {
@@ -28,7 +29,9 @@ export const RegistrationForm = () => {
             return;
         };
         
+        setLoading(true);
         await trigger(data);
+        setLoading(false);
     }
 
     return (
@@ -54,7 +57,7 @@ export const RegistrationForm = () => {
                     <FormLabel>Password confirmation</FormLabel>
                     <Input {...register('passwordConfirmation')} required type='password' />
                 </FormControl>
-                <Button type='submit'>Register</Button>
+                <Button isLoading={loading} type='submit'>Register</Button>
                 { registrationStatus === 'passwordsNotMatched' && <Alert status='error'>Passwords do not match.</Alert> }
             </chakra.form> }
         </>

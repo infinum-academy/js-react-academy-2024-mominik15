@@ -5,7 +5,6 @@ import { swrKeys } from "@/fetchers/swrKeys";
 import { FormControl, FormLabel, Heading, Input, chakra, Button, Alert } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { mutate } from "swr";
 import useSWRMutation from "swr/mutation";
 
 interface ILoginFormInputs {
@@ -15,23 +14,25 @@ interface ILoginFormInputs {
 
 export const LoginForm = () => {
     const [loggedIn, setLoggedIn] = useState(false);
-    const { register, handleSubmit } = useForm<ILoginFormInputs>();
-    const { trigger } = useSWRMutation(swrKeys.logIn, mutator, {
-        onSuccess: (data) => {
-            setLoggedIn(true);
-            mutate(data, { revalidate: false });
-            console.log(data);
-        }
-    });
+    const [loading, setLoading] = useState(false);
+    const { register, handleSubmit, formState } = useForm<ILoginFormInputs>();
+    const { trigger } = useSWRMutation(swrKeys.logIn, mutator);
 
     const onLogin = async (data: ILoginFormInputs) => {
+        setLoading(true);
         const response = await trigger(data);
+        if (!response.ok) {
+            setLoading(false);
+            return
+        }
         const body = await response.json();
         const userData = {
             accessToken: response.headers.get('access-token'),
             client: response.headers.get('client'),
             email: body.user.email,
         };
+        setLoading(false);
+        setLoggedIn(true);
 
         localStorage.setItem('userData', JSON.stringify(userData));
     }
@@ -44,19 +45,21 @@ export const LoginForm = () => {
                 flexDirection='column'
                 alignItems='center'
                 gap={3}
+                marginBottom={3}
                 onSubmit={handleSubmit(onLogin)}
             >
                 <Heading>Login</Heading>
                 <FormControl isRequired={true}>
                     <FormLabel>Email</FormLabel>
-                    <Input {...register('email')} required type='email' />
+                    <Input isInvalid={!formState.isValid} errorBorderColor='crimson' disabled={formState.isSubmitting} {...register('email')} required type='email' />
                 </FormControl>
                 <FormControl isRequired={true}>
                     <FormLabel>Password</FormLabel>
-                    <Input {...register('password')} required type='password' />
+                    <Input isInvalid={!formState.isValid} errorBorderColor='crimson' disabled={formState.isSubmitting} {...register('password')} required type='password' />
                 </FormControl>
-                <Button type='submit'>Register</Button>
+                <Button isLoading={loading} type='submit'>Login</Button>
             </chakra.form> }
+            { !formState.isValid && <Alert status='error'>Invalid credentials, try again!</Alert>}
         </>
     );
 }
