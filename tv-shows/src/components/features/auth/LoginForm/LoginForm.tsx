@@ -26,9 +26,14 @@ export const LoginForm = () => {
 
     const onLogin = async (data: ILoginFormInputs) => {
         const response = await trigger(data);
+        const body = await response.json();
+        const userData = {
+            accessToken: response.headers.get('access-token'),
+            client: response.headers.get('client'),
+            email: body.user.email,
+        };
 
-        localStorage.setItem('access-token', response.headers.get('access-token') || '');
-        localStorage.setItem('client', response.headers.get('client') || '');
+        localStorage.setItem('userData', JSON.stringify(userData));
     }
 
     return (
