@@ -2,9 +2,10 @@
 
 import { mutator } from "@/fetchers/mutator";
 import { swrKeys } from "@/fetchers/swrKeys";
-import { FormControl, FormLabel, Heading, Input, chakra, Button, Alert } from "@chakra-ui/react";
+import { FormControl, FormLabel, Heading, Input, chakra, Button, Alert, Flex } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import NextLink from 'next/link';
 import useSWRMutation from "swr/mutation";
 
 interface ILoginFormInputs {
@@ -60,6 +61,10 @@ export const LoginForm = () => {
                 <Button isLoading={loading} type='submit'>Login</Button>
             </chakra.form> }
             { !formState.isValid && <Alert status='error'>Invalid credentials, try again!</Alert>}
+            { !loggedIn && <Flex direction='column' alignItems='center' gap={3} marginTop={5}>
+                <Heading size='md'>Need to create an account?</Heading>
+                <Button as={NextLink} href='/register'>Register</Button>
+            </Flex> }
         </>
     );
 }

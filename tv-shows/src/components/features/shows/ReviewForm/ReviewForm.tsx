@@ -22,7 +22,7 @@ export const ReviewForm = ({ onAddReview }: IReviewFormProps) => {
     const [comment, setComment] = useState('');
     const [selectedStars, setSelectedStars] = useState(0);
     const [hoveredStars, setHoveredStars] = useState(0);
-    const { register, unregister, handleSubmit, formState, getValues } = useForm<IReviewFormInputs>();
+    const { register, unregister, handleSubmit, formState, getValues, reset } = useForm<IReviewFormInputs>();
 
     const onSubmitReview = (data: IReviewFormInputs) => {
         if(!data.comment || !data.rating) {
@@ -36,6 +36,7 @@ export const ReviewForm = ({ onAddReview }: IReviewFormProps) => {
             user: mockUser
         };
         onAddReview(newReview);
+        reset();
     };
 
     return (

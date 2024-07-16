@@ -6,11 +6,6 @@ import { IShow } from "@/typings/Show";
 import { Flex } from "@chakra-ui/react";
 import { useParams } from "next/navigation";
 
-// redirect register -> login
-// ocisti review forma nakon submittanja reviewa
-// package.json popraviti
-// dodat register tipku
-
 const allReviewList : IReviewList = {
     reviews: []
 };
