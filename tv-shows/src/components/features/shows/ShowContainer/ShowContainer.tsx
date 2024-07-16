@@ -17,7 +17,7 @@ export default function ShowContainer({ showProp } : IShowContainerProps) {
         setReviewList(loadedList);
     }, []);
 
-    const [reviewList, setReviewList] = useState<IReviewList>({ reviews: [] });
+    const [reviewList, setReviewList] = useState<IReviewList>({reviews: []});
     const [show, setShow] = useState(showProp);
     const params = useParams();
 
