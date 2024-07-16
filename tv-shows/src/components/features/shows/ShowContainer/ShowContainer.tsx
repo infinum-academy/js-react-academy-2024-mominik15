@@ -3,32 +3,32 @@ import { ShowReviewSection } from "@/components/features/shows/ShowReviewSection
 import { IReviewItem, IReviewList } from "@/typings/Review";
 import { Fragment, useEffect, useState } from "react";
 import { IShow } from "@/typings/Show";
+import { Flex } from "@chakra-ui/react";
+import { useParams } from "next/navigation";
 
-const mockShow = {
-    title: 'Dark',
-    description: 'A family saga with a supernatural twist, set in a German town where the disappearance of two young children exposes the relationships among four families.',
-    averageRating: 5,
-    imageUrl: 'https://dark.netflix.io/share/global.png'
-};
+interface IShowContainerProps {
+    showProp: IShow;
+}
 
-export default function ShowContainer() {
+export default function ShowContainer({ showProp } : IShowContainerProps) {
     useEffect(() => {
         const loadedList = loadFromLocalStorage();
         updateAverageRating(loadedList);
         setReviewList(loadedList);
     }, []);
 
-    const [reviewList, setReviewList] = useState([]);
-    const [show, setShow] = useState(mockShow);
+    const [reviewList, setReviewList] = useState<IReviewList>({reviews: []});
+    const [show, setShow] = useState(showProp);
+    const params = useParams();
 
     const saveToLocalStorage = (reviewList: IReviewList) => {
-        localStorage.setItem('reviewList', JSON.stringify(reviewList));
+        localStorage.setItem(`reviewList-${params.id}`, JSON.stringify(reviewList));
     };
 
     const loadFromLocalStorage = () => {
-        const reviewListString = localStorage.getItem('reviewList');
+        const reviewListString = localStorage.getItem(`reviewList-${params.id}`);
         if(!reviewListString) {
-            return [];
+            return { reviews: [] };
         }
         return JSON.parse(reviewListString);
     };
@@ -41,7 +41,8 @@ export default function ShowContainer() {
             title: show.title,
             description: show.description,
             averageRating: newAverageRating,
-            imageUrl: show.imageUrl
+            imageUrl: show.imageUrl,
+            id: 1,
         };
         setShow(newShow);
     };
@@ -67,9 +68,9 @@ export default function ShowContainer() {
     const hasReviews = reviewList.reviews.length > 0;
 
     return (
-        <Fragment>
+        <Flex direction='column' backgroundColor='#2e0033' position='sticky' flexGrow={1} padding={10}>
             <ShowDetails show={show} hasReviews={hasReviews} />
             <ShowReviewSection reviewList={reviewList} onAddReview={onAddReview} onDeleteReview={onDeleteReview} />
-        </Fragment>
+        </Flex>
     );
 }

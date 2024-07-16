@@ -1,12 +1,14 @@
 'use client';
 
-import ShowContainer from "@/components/features/shows/ShowContainer/ShowContainer";
-import styles from "./page.module.css";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-        <ShowContainer />
-    </main>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/all-shows');
+  }, [router]); 
+
+  return null;
 }
