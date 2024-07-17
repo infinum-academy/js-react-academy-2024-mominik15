@@ -5,76 +5,75 @@ import { Fragment, useEffect, useState } from "react";
 import { IShow } from "@/typings/Show";
 import { Flex } from "@chakra-ui/react";
 import { useParams } from "next/navigation";
-
-const allReviewList : IReviewList = {
-    reviews: []
-};
+import useSWR from "swr";
+import { getShowReviews } from "@/fetchers/review";
+import { IUser } from "@/typings/User";
 
 interface IShowContainerProps {
     showProp: IShow;
 }
 
 export default function ShowContainer({ showProp } : IShowContainerProps) {
+    const params = useParams();
+    const [reviewList, setReviewList] = useState({ reviews: []} as IReviewList);
+    const { data: reviewsResponse } = useSWR(`/reviews/${params.id}`, () => getShowReviews(params.id as string));
+
     useEffect(() => {
-        const loadedList = loadFromLocalStorage();
-        updateAverageRating(loadedList);
-        setReviewList(loadedList);
+        const showReviewList = reviewsResponse ? {
+            reviews: reviewsResponse.reviews.map((review) => {
+                return {
+                    id: parseInt(review.id),
+                    comment: review.comment,
+                    rating: review.rating,
+                    showId: review.show_id,
+                    user: {
+                        id: parseInt(review.user.id),
+                        email: review.user.email,
+                        avatarUrl: review.user.image_url,
+                    } as IUser,
+                } as IReviewItem
+            })
+        } as IReviewList : { reviews: [] };
+        
+        setReviewList(showReviewList);
     }, []);
 
-    const [reviewList, setReviewList] = useState(allReviewList);
-    const [show, setShow] = useState(showProp);
-    const params = useParams();
 
-    const saveToLocalStorage = (reviewList: IReviewList) => {
-        localStorage.setItem(`reviewList-${params.id}`, JSON.stringify(reviewList));
+    const calcAverageRating = () => {
+        const ratingSum = reviewList.reviews.reduce((sum, review) => sum + review.rating, 0);
+        const numberOfRatings = reviewList.reviews.length;
+        return numberOfRatings > 0 ? parseFloat((ratingSum / numberOfRatings).toFixed(2)) : 0;
     };
 
-    const loadFromLocalStorage = () => {
-        const reviewListString = localStorage.getItem(`reviewList-${params.id}`);
-        if(!reviewListString) {
-            return allReviewList;
-        }
-        return JSON.parse(reviewListString);
+    const myNewShow : IShow = {
+        title: showProp.title,
+        description: showProp.description,
+        averageRating: calcAverageRating(),
+        imageUrl: showProp.imageUrl,
+        id: showProp.id,
     };
 
-    const updateAverageRating = (newReviewList : IReviewList) => {
-        const ratingSum = newReviewList.reviews.reduce((sum, review) => sum + review.rating, 0);
-        const numberOfRatings = newReviewList.reviews.length;
-        const newAverageRating = numberOfRatings > 0 ? parseFloat((ratingSum / numberOfRatings).toFixed(2)) : 0;
-        const newShow : IShow = {
-            title: show.title,
-            description: show.description,
-            averageRating: newAverageRating,
-            imageUrl: show.imageUrl,
-            id: 1,
-        };
-        setShow(newShow);
-    };
-
-    const onAddReview = ( review: IReviewItem ) => {
+    const onAddReview = (newReviewItem: IReviewItem) => {
         const newReviewList = {
-            reviews: [...reviewList.reviews, review]
+            reviews: [newReviewItem, ...reviewList.reviews]
         };
+
         setReviewList(newReviewList);
-        updateAverageRating(newReviewList);
-        saveToLocalStorage(newReviewList);
-    };
+    }
 
     const onDeleteReview = ( reviewToDelete: IReviewItem ) => {
         const newReviewList = {
             reviews: reviewList.reviews.filter((review) => review !== reviewToDelete ),
         };
         setReviewList(newReviewList);
-        updateAverageRating(newReviewList);
-        saveToLocalStorage(newReviewList);
     };
 
     const hasReviews = reviewList.reviews.length > 0;
 
     return (
         <Flex direction='column' backgroundColor='#2e0033' position='sticky' flexGrow={1} padding={10}>
-            <ShowDetails show={show} hasReviews={hasReviews} />
-            <ShowReviewSection reviewList={reviewList} onAddReview={onAddReview} onDeleteReview={onDeleteReview} />
+            <ShowDetails show={myNewShow} hasReviews={hasReviews} />
+            <ShowReviewSection reviewList={reviewList} onDeleteReview={onDeleteReview} onAddReview={onAddReview} />
         </Flex>
     );
 }

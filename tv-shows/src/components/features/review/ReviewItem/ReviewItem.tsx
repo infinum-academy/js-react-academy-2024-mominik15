@@ -2,6 +2,9 @@ import { IReviewItem } from "@/typings/Review";
 import { Flex, IconButton, Image, Text } from "@chakra-ui/react";
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
+import useSWRMutation from "swr/mutation";
+import { swrKeys } from "@/fetchers/swrKeys";
+import { authenticatedDeleter } from "@/fetchers/authenticatedMutators";
 
 interface IReviewItemProps {
     reviewItem: IReviewItem;
@@ -9,6 +12,13 @@ interface IReviewItemProps {
 }
 
 export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => {
+    const { trigger } = useSWRMutation(swrKeys.review(reviewItem.id.toString()), authenticatedDeleter);
+
+    const onClickAction = async (reviewItem : IReviewItem) => {
+        await trigger(reviewItem.id);
+        onDeleteReview(reviewItem);
+    };
+
     return (
         <Card
             direction='column'
@@ -22,7 +32,7 @@ export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => 
                 <Text as='i'>{reviewItem.user.email}</Text>
             </CardHeader>
             <CardBody padding={1.5}>
-                <Text>{reviewItem.text}</Text>
+                <Text>{reviewItem.comment}</Text>
             </CardBody>
             <CardFooter justifyContent='space-between' alignItems='center' padding={1.5}>
                 <Flex>
@@ -33,7 +43,7 @@ export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => 
                         return <Image alt='empty_star' key={index} src='/empty_star.png' width={5} />
                     })}
                 </Flex>
-                <IconButton aria-label="Delete todo" colorScheme="red" icon={<DeleteIcon />} onClick={() => onDeleteReview(reviewItem)} w="48px" />
+                <IconButton aria-label="Delete todo" colorScheme="red" icon={<DeleteIcon />} onClick={() => onClickAction(reviewItem)} w="48px" />
             </CardFooter>
         </Card>
     );

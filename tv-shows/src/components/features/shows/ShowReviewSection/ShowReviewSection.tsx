@@ -14,7 +14,7 @@ export const ShowReviewSection = ({reviewList, onAddReview, onDeleteReview} : IS
     return (
         <>
             <Heading color='white' size='lg' marginBottom={2}>Reviews</Heading>
-            <ReviewForm onAddReview={onAddReview}/>
+            <ReviewForm onAddReview={onAddReview} />
             <ReviewList reviewList={reviewList} onDeleteReview={onDeleteReview} />
         </>
     );
