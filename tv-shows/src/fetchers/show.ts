@@ -1,6 +1,7 @@
 import { fetcher } from '@/fetchers/fetcher';
+import { swrKeys } from './swrKeys';
 
-interface IShowResponse {
+interface ISingleShowResponse {
     title: string,
     no_of_reviews: number,
     image_url: string,
@@ -9,18 +10,22 @@ interface IShowResponse {
     id: string,
 }
 
+interface IShowResponse {
+    show: ISingleShowResponse,
+}
+
 interface IShowsResponse {
-	shows: Array<IShowResponse>;
+	shows: Array<ISingleShowResponse>;
 }
 
 export function getAllShows() {
-	return fetcher<IShowsResponse>('/api/shows');
+	return fetcher<IShowsResponse>(swrKeys.allShows);
 }
 
 export function getTopRatedShows() {
-	return fetcher<IShowsResponse>('/api/shows/top-rated');
+	return fetcher<IShowsResponse>(swrKeys.topRatedShows);
 }
 
 export function getShow(id: string) {
-	return fetcher<IShowResponse>(`/api/shows/${id}`);
+	return fetcher<IShowResponse>(`${swrKeys.allShows}/${id}`);
 }

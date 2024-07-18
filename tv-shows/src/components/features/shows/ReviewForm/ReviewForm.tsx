@@ -1,7 +1,8 @@
 import { InputStar } from "@/components/core/InputStar/InputStar";
 import { IReviewItem } from "@/typings/Review";
-import { Button, Flex, Input, Textarea } from "@chakra-ui/react";
-import { use, useState } from "react";
+import { Button, Flex, FormControl, Input, Textarea, chakra } from "@chakra-ui/react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 interface IReviewFormProps {
     onAddReview: (review: IReviewItem) => void;
@@ -12,69 +13,82 @@ const mockUser = {
     avatarUrl: 'https://fakeimg.pl/30x30/854d85/909090?text=User',
 };
 
+interface IReviewFormInputs {
+    comment: string,
+    rating: number,
+}
+
 export const ReviewForm = ({ onAddReview }: IReviewFormProps) => {
-    const [comment, setComment] = useState(''); // isto i za rating
+    const [comment, setComment] = useState('');
     const [selectedStars, setSelectedStars] = useState(0);
     const [hoveredStars, setHoveredStars] = useState(0);
+    const { register, unregister, handleSubmit, formState, getValues, reset } = useForm<IReviewFormInputs>();
 
-    const onClick = () => {
-        if(!comment || selectedStars <= 0) {
+    const onSubmitReview = (data: IReviewFormInputs) => {
+        if(!data.comment || !data.rating) {
             alert('Both comment and rating need to be filled!');
             return;
         };
 
         const newReview: IReviewItem = {
-            text: comment,
-            rating: selectedStars,
+            text: data.comment,
+            rating: data.rating,
             user: mockUser
         };
         onAddReview(newReview);
+        reset();
     };
 
     return (
-        <Flex
+        <chakra.form
             background='#3d363d'
             width='100%'
             padding={2}
             borderRadius={10}
-            direction='column'
+            flexDirection='column'
             marginBottom={6}
+            onSubmit={handleSubmit(onSubmitReview)}
         >
-            <Textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                background='#7c727d'
-                color='black'
-                resize='vertical'
-                placeholder='Add review...'
-                borderColor='#352a36'
-                focusBorderColor='#554157'
-                id='review-textarea'
-            />
+            <FormControl isRequired={true}>
+                <Textarea
+                    background='#7c727d'
+                    color='black'
+                    resize='vertical'
+                    placeholder='Add review...'
+                    borderColor='#352a36'
+                    focusBorderColor='#554157'
+                    id='review-textarea'
+                    {...register('comment')}
+                />
+            </FormControl>
             <Flex marginTop={2}
                 direction='row'
                 justifyContent='space-between'
             >
-                <Flex>
+                <FormControl display='flex' flexDirection='row' alignItems='center' isRequired={true}>
                     { Array(5).fill(1).map((_n, index) => {
-                        let filledStars = selectedStars;
-                        if (hoveredStars) {
-                            filledStars = hoveredStars;
-                        }
+                            let filledStars = getValues('rating');
+                            if (hoveredStars) {
+                                filledStars = hoveredStars;
+                            }
 
-                        return (
-                            <InputStar
-                                key={index}
-                                filled={index < filledStars}
-                                onHovered={() => setHoveredStars(index + 1)}
-                                onUnhovered={() => setHoveredStars(0)}
-                                onClicked={() => setSelectedStars(index + 1)}
-                            />
-                        );
-                    })}
-                </Flex>
-                <Button colorScheme="purple" onClick={onClick}>Post</Button>
+                            return (
+                                <InputStar
+                                    key={index}
+                                    filled={index < filledStars}
+                                    onHovered={() => setHoveredStars(index + 1)}
+                                    onUnhovered={() => setHoveredStars(0)}
+                                    onClicked={() => {
+                                        unregister('rating');
+                                        register('rating', { value: index + 1 });
+                                        }
+                                    }
+                                />
+                            );
+                        })}
+                </FormControl>
+                <Button colorScheme="purple" type='submit'>Post</Button>
             </Flex>
-        </Flex>
+        </chakra.form>
     );
 }
