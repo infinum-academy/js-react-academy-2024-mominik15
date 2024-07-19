@@ -12,13 +12,14 @@ export const ShowsList = ({ topRated } : IShowsList) => {
     const cacheUrl = topRated ? '/top-rated' : '/shows';
     const getter = topRated ? getTopRatedShows : getAllShows;
     const { data: showsResponse, error, isLoading } = useSWR(cacheUrl, getter);
-
+    
     if (isLoading) {
-		return <div>Loading...</div>;
+        console.log(showsResponse);
+        return <div>Loading...</div>;
 	}
-
+    
 	if (error) {
-		return <div>Ups something went wrong...</div>;
+        return <div>Ups something went wrong...</div>;
 	}
     
     if(!showsResponse) {

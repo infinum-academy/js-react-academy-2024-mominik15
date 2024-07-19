@@ -36,7 +36,7 @@ export default function ShowContainer({ showProp } : IShowContainerProps) {
         } as IReviewList : { reviews: [] };
         
         setReviewList(showReviewList);
-    }, []);
+    }, [reviewsResponse]);
 
 
     const calcAverageRating = () => {

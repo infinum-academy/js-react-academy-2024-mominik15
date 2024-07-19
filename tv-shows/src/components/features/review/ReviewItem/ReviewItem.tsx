@@ -19,6 +19,11 @@ export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => 
         onDeleteReview(reviewItem);
     };
 
+    const userDataString = localStorage.getItem('userData') as string;
+    const loggedInUserEmail = JSON.parse(userDataString).email;
+    const currentUserEmail = reviewItem.user.email;
+    const isByCurrentUser = currentUserEmail === loggedInUserEmail;
+
     return (
         <Card
             direction='column'
@@ -43,7 +48,7 @@ export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => 
                         return <Image alt='empty_star' key={index} src='/empty_star.png' width={5} />
                     })}
                 </Flex>
-                <IconButton aria-label="Delete todo" colorScheme="red" icon={<DeleteIcon />} onClick={() => onClickAction(reviewItem)} w="48px" />
+                { isByCurrentUser && <IconButton aria-label="Delete todo" colorScheme="red" icon={<DeleteIcon />} onClick={() => onClickAction(reviewItem)} w="48px" /> }
             </CardFooter>
         </Card>
     );
