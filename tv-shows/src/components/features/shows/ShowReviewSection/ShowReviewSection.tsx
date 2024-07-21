@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { ReviewList } from "../../review/ReviewList/ReviewList";
 import { ReviewForm } from "../ReviewForm/ReviewForm";
 import { IReviewItem, IReviewList } from "@/typings/Review";
-import { Heading } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 
 interface IShowReviewSectionProps {
     reviewList: IReviewList;
@@ -12,10 +12,12 @@ interface IShowReviewSectionProps {
 
 export const ShowReviewSection = ({reviewList, onAddReview, onDeleteReview} : IShowReviewSectionProps) => {
     return (
-        <>
-            <Heading color='white' size='lg' marginBottom={2}>Reviews</Heading>
-            <ReviewForm onAddReview={onAddReview} />
-            <ReviewList reviewList={reviewList} onDeleteReview={onDeleteReview} />
-        </>
+        <Flex width='100%' gap='60px'>
+            <Heading color='white' size='lg' fontWeight='400' marginBottom={2}>Reviews</Heading>
+            <Flex direction='column' width='100%'>
+                <ReviewForm onAddReview={onAddReview} />
+                <ReviewList reviewList={reviewList} onDeleteReview={onDeleteReview} />
+            </Flex>
+        </Flex>
     );
 };

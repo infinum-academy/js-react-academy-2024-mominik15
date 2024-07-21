@@ -8,7 +8,7 @@ interface IInputStar {
 }
 
 export const InputStar = ({ filled, onHovered, onUnhovered, onClicked }: IInputStar) => {
-    const imageSrc = filled ? '/full_star.png' : '/empty_star.png';
+    const imageSrc = filled ? '/full_star.svg' : '/empty_star.svg';
     return (
         <Image
             src={imageSrc}

@@ -33,6 +33,11 @@ const Button = defineStyleConfig({
                 backgroundColor: 'purple',
                 fontWeight: '700',
             }
+        },
+        disabled: {
+            bg: 'white',
+            color: 'purple',
+            opacity: '50%'
         }
       }
 });

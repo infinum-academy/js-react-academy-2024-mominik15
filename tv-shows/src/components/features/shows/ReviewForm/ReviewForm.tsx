@@ -3,7 +3,7 @@ import { authenticatedCreator } from "@/fetchers/authenticatedMutators";
 import { swrKeys } from "@/fetchers/swrKeys";
 import { IReviewItem } from "@/typings/Review";
 import { IUser } from "@/typings/User";
-import { Button, Flex, FormControl, Input, Textarea, chakra } from "@chakra-ui/react";
+import { Button, Flex, FormControl, FormLabel, Input, Textarea, chakra } from "@chakra-ui/react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -56,31 +56,32 @@ export const ReviewForm = ({onAddReview} : IReviewFormProps) => {
 
     return (
         <chakra.form
-            background='#3d363d'
+            background='darkPurple'
             width='100%'
             padding={2}
-            borderRadius={10}
             flexDirection='column'
             marginBottom={6}
             onSubmit={handleSubmit(onSubmitReview)}
         >
             <FormControl isRequired={true} >
                 <Textarea
-                    background='#7c727d'
+                    background='white'
                     color='black'
-                    resize='vertical'
-                    placeholder='Add review...'
-                    borderColor='#352a36'
-                    focusBorderColor='#554157'
-                    id='review-textarea'
+                    resize='none'
+                    placeholder='Review'
+                    borderRadius='26px'
+                    padding='28px 40px'
                     {...register('comment')}
                 />
             </FormControl>
             <Flex marginTop={2}
                 direction='row'
                 justifyContent='space-between'
+                paddingTop='23px'
+                paddingLeft='39px'
             >
-                <FormControl display='flex' flexDirection='row' alignItems='center' isRequired={true}>
+                <FormControl display='flex' flexDirection='row' verticalAlign='center' alignItems='center' isRequired={true}>
+                    <FormLabel color='white' marginTop={2}>Rating</FormLabel>
                     { Array(5).fill(1).map((_n, index) => {
                             let filledStars = getValues('rating');
                             if (hoveredStars) {
@@ -102,7 +103,7 @@ export const ReviewForm = ({onAddReview} : IReviewFormProps) => {
                             );
                         })}
                 </FormControl>
-                <Button colorScheme="purple" type='submit'>Post</Button>
+                <Button variant={(getValues('comment') && getValues('rating')) ? 'solid' : 'disabled'} colorScheme="purple" type='submit'>POST</Button>
             </Flex>
         </chakra.form>
     );

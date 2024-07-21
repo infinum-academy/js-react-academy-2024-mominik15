@@ -12,10 +12,10 @@ export const SidebarNavigation = () => {
     };
 
     return (
-        <Flex height='100vh' maxWidth='325px' minWidth='250px' position='sticky' top='0' padding={0}>
+        <Flex height='100vh' maxWidth='350px' minWidth='200px' position='sticky' top='0' padding={0}>
             <Card width='100%' backgroundColor='darkPurple' color='white' border='none' borderRadius={0} padding={0}>
                 <CardHeader>
-                    <Image src='logo.svg' alt='TV show logo' />
+                    <Image src='/logo.svg' alt='TV show logo' />
                 </CardHeader>
                 <CardBody display='flex' flexDirection='column' padding='31px' gap='19px'>
                     <Button variant='ghost' as={NextLink} href='/all-shows/'>All shows</Button>
