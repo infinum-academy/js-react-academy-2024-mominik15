@@ -2,11 +2,12 @@
 
 import { mutator } from "@/fetchers/mutator";
 import { swrKeys } from "@/fetchers/swrKeys";
-import { FormControl, FormLabel, Heading, Input, chakra, Button, Alert, Flex } from "@chakra-ui/react";
+import { FormControl, FormLabel, Heading, Input, chakra, Button, Alert, Flex, Text, useMultiStyleConfig, InputGroup, InputLeftElement, Icon } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import NextLink from 'next/link';
 import useSWRMutation from "swr/mutation";
+import { EmailIcon, LockIcon, UnlockIcon } from "@chakra-ui/icons";
 
 interface ILoginFormInputs {
     email: string,
@@ -18,6 +19,7 @@ export const LoginForm = () => {
     const [loading, setLoading] = useState(false);
     const { register, handleSubmit, formState } = useForm<ILoginFormInputs>();
     const { trigger } = useSWRMutation(swrKeys.logIn, mutator);
+    const styles = useMultiStyleConfig('Container');
 
     const onLogin = async (data: ILoginFormInputs) => {
         setLoading(true);
@@ -42,29 +44,50 @@ export const LoginForm = () => {
         <>
             { loggedIn && <Alert status='success'>Login successful!</Alert>}
             { !loggedIn && <chakra.form
-                display='flex'
-                flexDirection='column'
-                alignItems='center'
-                gap={3}
-                marginBottom={3}
+                __css={styles.form}
                 onSubmit={handleSubmit(onLogin)}
             >
                 <Heading>Login</Heading>
                 <FormControl isRequired={true}>
-                    <FormLabel>Email</FormLabel>
-                    <Input isInvalid={!formState.isValid} errorBorderColor='crimson' disabled={formState.isSubmitting} {...register('email')} required type='email' />
+                    <InputGroup>
+                        <InputLeftElement height='100%' marginLeft='18px'>
+                            <EmailIcon />
+                        </InputLeftElement>
+                        <Input
+                            placeholder='Email'
+                            errorBorderColor='crimson'
+                            required
+                            type='email'
+                            isInvalid={!formState.isValid}
+                            disabled={formState.isSubmitting}
+                            {...register('email')}
+                        />
+                    </InputGroup>
                 </FormControl>
                 <FormControl isRequired={true}>
-                    <FormLabel>Password</FormLabel>
-                    <Input isInvalid={!formState.isValid} errorBorderColor='crimson' disabled={formState.isSubmitting} {...register('password')} required type='password' />
+                    <InputGroup>
+                        <InputLeftElement height='100%' marginLeft='18px'>
+                            <LockIcon />
+                        </InputLeftElement>
+                        <Input
+                            isInvalid={!formState.isValid}
+                            errorBorderColor='crimson'
+                            disabled={formState.isSubmitting}
+                            {...register('password')}
+                            required
+                            placeholder="Password"
+                            type='password'
+                        />
+                    </InputGroup>
                 </FormControl>
-                <Button isLoading={loading} type='submit'>Login</Button>
+                <Button isLoading={loading} type='submit' marginTop='23px' marginBottom='28px'>LOG IN</Button>
             </chakra.form> }
             { !formState.isValid && <Alert status='error'>Invalid credentials, try again!</Alert>}
-            { !loggedIn && <Flex direction='column' alignItems='center' gap={3} marginTop={5}>
-                <Heading size='md'>Need to create an account?</Heading>
-                <Button as={NextLink} href='/register'>Register</Button>
-            </Flex> }
+            { !loggedIn && <Flex>
+                <Text>Don't have an account?</Text>
+                <Text as={NextLink} href='/register' fontWeight='bold' marginLeft={1}>Register</Text>
+            </Flex>
+            }
         </>
     );
 }

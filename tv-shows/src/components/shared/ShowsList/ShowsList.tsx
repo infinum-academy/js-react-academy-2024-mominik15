@@ -42,12 +42,12 @@ export const ShowsList = ({ topRated } : IShowsList) => {
         // pogledaj chakra grid component
         <Flex
             display='grid'
-            padding={10}
-            backgroundColor='#2e0033'
-            gridAutoColumns='300px'
-            gap={`${(window.innerWidth-300 - 300*Math.floor((window.innerWidth-300)/300))/(Math.floor((window.innerWidth-300)/300) + 1)}`}
+            padding='31px'
+            backgroundColor='darkPurple'
+            gridAutoColumns='240px'
+            gap='31px'
             border='none'
-            gridTemplateColumns= 'repeat(auto-fit, 300px)'
+            gridTemplateColumns= 'repeat(auto-fit, 240px)'
             flexGrow={1}
             height='100vh'
             width='100%'

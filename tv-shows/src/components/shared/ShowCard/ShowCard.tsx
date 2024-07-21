@@ -11,11 +11,12 @@ interface IShowCard {
 export const ShowCard = ({ imageUrl, title, rating, id } : IShowCard) => {
     return (
         <Card
-            width='300px'
-            height='400px'
-            backgroundColor='#4e4057'
-            color='white'
-            borderRadius={10}
+            width='240px'
+            height='375px'
+            backgroundColor='white'
+            color='purple'
+            borderRadius='26px'
+            boxShadow='0px 0px 9px rgba(0, 0, 0, 0.7)'
             _hover={{cursor: 'pointer'}}
             onClick={() => {}}
             as={NextLink}
@@ -27,17 +28,17 @@ export const ShowCard = ({ imageUrl, title, rating, id } : IShowCard) => {
                     src={imageUrl}
                     alt={title}
                     objectFit='cover'
-                    width='300px'
+                    width='240px'
                     height='300px'
-                    borderTopRadius={10}
+                    borderTopRadius='25px'
                 />
             </CardHeader>
-            <CardBody flexDirection='column'>
+            <CardBody flexDirection='column' paddingTop='18px' paddingLeft='18px'>
                 <Heading size='md'>{title}</Heading>
-                <Flex alignItems='center'>
-                    <Image src='full_star.png' width={4} height={4} alt='star' marginRight={1}/>
-                    <Text>{rating}</Text>
-                </Flex>
+                { rating && <Flex alignItems='center'>
+                    <Image src='rating_symbol.svg' width={4} height={4} alt='star' marginRight={1}/>
+                    <Text>{rating}/5</Text>
+                </Flex> }
             </CardBody>
         </Card>
     );

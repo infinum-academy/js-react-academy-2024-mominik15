@@ -1,8 +1,9 @@
 .main {
     /* padding: 6rem; */
     min-height: 100vh;
-    background-color: #2e0033;
+    background-color: #1B004C;
     width: 100%;
+    display: flex;
   }
 
   @media only screen and (max-width: 600px) {
