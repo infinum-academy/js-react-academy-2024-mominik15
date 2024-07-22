@@ -1,15 +1,19 @@
 'use client';
 
-import { SidebarNavigation } from "@/components/shared/SidebarNavigation/SidebarNavigation";
-import styles from "../page.module.css";
+import { AuthRedirect } from "@/components/shared/AuthRedirect/AuthRedirect";
 import { ShowsList } from "@/components/shared/ShowsList/ShowsList";
-import { Flex } from "@chakra-ui/react";
+import { SidebarNavigation } from "@/components/shared/SidebarNavigation/SidebarNavigation";
+import { chakra, useStyleConfig } from "@chakra-ui/react";
 
 export default function Home() {
+  const variant = window.innerWidth < 800 ? 'mobile' : 'regular';
+  const style = useStyleConfig('Main', {variant});
+
   return (
-    <main className={styles.main}>
+    <chakra.main __css={style}>
+        <AuthRedirect to='/login' condition='isLoggedOut'/>
         <SidebarNavigation />
         <ShowsList topRated={true} />
-    </main>
+    </chakra.main>
   );
 }

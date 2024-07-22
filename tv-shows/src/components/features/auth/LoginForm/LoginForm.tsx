@@ -2,7 +2,7 @@
 
 import { mutator } from "@/fetchers/mutator";
 import { swrKeys } from "@/fetchers/swrKeys";
-import { FormControl, FormLabel, Heading, Input, chakra, Button, Alert, Flex, Text, useMultiStyleConfig, InputGroup, InputLeftElement, Icon } from "@chakra-ui/react";
+import { FormControl, FormLabel, Heading, Input, chakra, Button, Alert, Flex, Text, useMultiStyleConfig, InputGroup, InputLeftElement, Icon, useStyleConfig } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import NextLink from 'next/link';
@@ -19,7 +19,8 @@ export const LoginForm = () => {
     const [loading, setLoading] = useState(false);
     const { register, handleSubmit, formState } = useForm<ILoginFormInputs>();
     const { trigger } = useSWRMutation(swrKeys.logIn, mutator);
-    const styles = useMultiStyleConfig('Container');
+    const variant = window.innerWidth < 800 ? 'mobile' : 'regular';
+    const styles = useMultiStyleConfig('Container', {variant});
 
     const onLogin = async (data: ILoginFormInputs) => {
         setLoading(true);

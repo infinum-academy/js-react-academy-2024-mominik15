@@ -8,6 +8,9 @@ interface IShowDetails {
 }
 
 export const ShowDetails = ({ show, hasReviews }: IShowDetails) => {
+    const variant = window.innerWidth < 800 ? 'mobile' : 'regular';
+    const isRegular = variant ==='regular';
+
     return (
         <Flex
             direction='column'
@@ -18,7 +21,7 @@ export const ShowDetails = ({ show, hasReviews }: IShowDetails) => {
             marginBottom={7}
         >
             <ShowImage url={show.imageUrl} title={show.title} />
-            <Flex direction='row' padding={10}>
+            <Flex direction={isRegular ? 'row' : 'column'} padding={10} gap={3}>
                 <Flex direction='column' flex='1'>
                     <Heading>{show.title}</Heading>
                     { hasReviews && <Flex>

@@ -24,12 +24,12 @@ interface IReviewFormInputs {
 }
 
 export const ReviewForm = ({onAddReview} : IReviewFormProps) => {
-    const [comment, setComment] = useState('');
     const params = useParams();
-    const [selectedStars, setSelectedStars] = useState(0);
     const [hoveredStars, setHoveredStars] = useState(0);
     const { register, unregister, handleSubmit, formState, getValues, reset } = useForm<IReviewFormInputs>();
     const { trigger } = useSWRMutation(swrKeys.reviews, authenticatedCreator);
+    const variant = window.innerWidth < 800 ? 'mobile' : 'regular';
+    const isRegular = variant ==='regular';
 
     const onSubmitReview = async (data: IReviewFormInputs) => {
         if(!data.comment || !data.rating) {
@@ -78,7 +78,7 @@ export const ReviewForm = ({onAddReview} : IReviewFormProps) => {
                 direction='row'
                 justifyContent='space-between'
                 paddingTop='23px'
-                paddingLeft='39px'
+                paddingLeft={isRegular ? '39px' : '0'}
             >
                 <FormControl display='flex' flexDirection='row' verticalAlign='center' alignItems='center' isRequired={true}>
                     <FormLabel color='white' marginTop={2}>Rating</FormLabel>

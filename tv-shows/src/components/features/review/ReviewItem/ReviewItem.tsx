@@ -23,6 +23,8 @@ export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => 
     const loggedInUserEmail = JSON.parse(userDataString).email;
     const currentUserEmail = reviewItem.user.email;
     const isByCurrentUser = currentUserEmail === loggedInUserEmail;
+    const variant = window.innerWidth < 800 ? 'mobile' : 'regular';
+    const isRegular = variant ==='regular';
 
     return (
         <Flex
@@ -31,28 +33,31 @@ export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => 
             width='100%'
             borderRadius='26px'
             color='white'
-            padding={7}
-            gap='50px'
+            padding={5}
+            gap={3}
+            justifyContent='space-between'
         >
-            <Flex display='flex' margin='0' direction='row'>
-                <UserImage url={reviewItem.user.avatarUrl}/>
-                <Flex direction='column' gap={2} marginLeft={2}>
-                    <Text as='b'>{reviewItem.user.email}</Text>
-                    <Flex gap={2}>
-                        <Text>{reviewItem.rating}/5</Text>
-                        <Flex>
-                            { Array(reviewItem.rating).fill(1).map((_n, index) => {
-                                return <Image alt='full_star' key={index} src='/full_star.svg' width={5} height={5} />
-                            })}
+            <Flex direction={isRegular ? 'row' : 'column'} gap={4}>
+                <Flex display='flex' margin='0' direction='row'>
+                    <UserImage url={reviewItem.user.avatarUrl}/>
+                    <Flex direction='column' gap={2} marginLeft={2}>
+                        <Text as='b'>{reviewItem.user.email}</Text>
+                        <Flex gap={2}>
+                            <Text>{reviewItem.rating}/5</Text>
+                            <Flex>
+                                { Array(reviewItem.rating).fill(1).map((_n, index) => {
+                                    return <Image alt='full_star' key={index} src='/full_star.svg' width={5} height={5} />
+                                })}
+                            </Flex>
                         </Flex>
                     </Flex>
                 </Flex>
+                <Flex padding={1.5} align='left'>
+                    <Text align='start'>{reviewItem.comment}</Text>
+                </Flex>
             </Flex>
-            <Flex padding={1.5}>
-                <Text>{reviewItem.comment}</Text>
-            </Flex>
-            <Flex justifyContent='space-between' alignItems='center' padding={1.5}>
-                { isByCurrentUser && <IconButton aria-label="Delete todo" colorScheme="red" icon={<DeleteIcon />} onClick={() => onClickAction(reviewItem)} w="48px" /> }
+            <Flex alignItems='center' padding={1.5}>
+                { isByCurrentUser && <IconButton borderRadius='full' aria-label="Delete todo" colorScheme="red" icon={<DeleteIcon />} onClick={() => onClickAction(reviewItem)} w="40px" h="40px" /> }
             </Flex>
         </Flex>
     );

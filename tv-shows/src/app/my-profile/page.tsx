@@ -1,11 +1,11 @@
 'use client'
 
 import { AuthRedirect } from "@/components/shared/AuthRedirect/AuthRedirect";
-import ShowSection from "@/components/features/shows/ShowSection/ShowSection";
+import { ProfileContainer } from "@/components/features/auth/ProfileContainer/ProfileContainer";
 import { SidebarNavigation } from "@/components/shared/SidebarNavigation/SidebarNavigation";
-import { Flex, chakra, useStyleConfig } from "@chakra-ui/react";
+import { chakra, useStyleConfig } from "@chakra-ui/react";
 
-export default function ShowDetails () {
+export default function MyProfile() {
     const variant = window.innerWidth < 800 ? 'mobile' : 'regular';
     const style = useStyleConfig('Main', {variant});
 
@@ -13,7 +13,7 @@ export default function ShowDetails () {
         <chakra.main __css={style}>
             <AuthRedirect to='/login' condition='isLoggedOut'/>
             <SidebarNavigation />
-            <ShowSection />
+            <ProfileContainer />
         </chakra.main>
-      );
+    );
 }

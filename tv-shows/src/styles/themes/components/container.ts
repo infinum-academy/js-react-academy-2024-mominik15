@@ -7,16 +7,10 @@ const defaultProps = {
 }
 
 const Container = helpers.defineMultiStyleConfig({
-  defaultProps,
   baseStyle: {
     backgroundColor: 'purple',
-    borderRadius: '16px',
-    boxShadow: '0px 0px 9px rgba(0, 0, 0, 0.7)',
     color: 'white',
-    padding: '56px',
     form: {
-        width: "500px",
-        maxWidth: "100%",
         font: 'body',
         color: 'white',
         display: 'flex',
@@ -38,6 +32,39 @@ const Container = helpers.defineMultiStyleConfig({
         padding: '16px 54px',
         verticalAlign: 'center',
     }
+  },
+  variants: {
+    regular: {
+        borderRadius: '16px',
+        padding: '56px',
+        boxShadow: '0px 0px 9px rgba(0, 0, 0, 0.7)',
+        form: {
+            width: "500px",
+            maxWidth: "100%",
+            font: 'body',
+            color: 'white',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '9',
+        },
+    },
+    mobile: {
+        width: "100vw",
+        padding: '0',
+        form: {
+            width: "100%",
+            minHeight: "100vh",
+            font: 'body',
+            color: 'white',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '9',
+            margin: '0',
+            padding: '0'
+        },
+    },
   }
 });
 

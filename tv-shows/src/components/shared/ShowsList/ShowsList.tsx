@@ -14,7 +14,6 @@ export const ShowsList = ({ topRated } : IShowsList) => {
     const { data: showsResponse, error, isLoading } = useSWR(cacheUrl, getter);
     
     if (isLoading) {
-        console.log(showsResponse);
         return <div>Loading...</div>;
 	}
     
