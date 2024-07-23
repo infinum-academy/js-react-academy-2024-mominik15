@@ -12,6 +12,7 @@ export const SidebarNavigation = () => {
         router.push('/login');
     };
 
+    // show/hide umjesto ovoga jer je to reaktivno, odredi breakdown (chakra komponenta)
     const variant = window.innerWidth < 800 ? 'mobile' : 'regular';
     const style= useStyleConfig('SidebarNavigation', {variant});
 

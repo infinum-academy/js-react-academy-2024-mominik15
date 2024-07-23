@@ -40,7 +40,8 @@ export const MobileNavigation = ({onLogOut}: IRegularNavigationProps) => {
                 <ModalOverlay />
                 <ModalContent
                     backgroundColor='purple'
-                    height='90%'
+                    height='calc(100vh - 24px)'
+                    width='calc(100vw - 36px)'
                     right='0'
                     position='sticky'
                     padding='0'
@@ -48,6 +49,8 @@ export const MobileNavigation = ({onLogOut}: IRegularNavigationProps) => {
                     marginTop='none'
                     borderRadius='0'
                     borderTopLeftRadius='25px'
+                    alignSelf='flex-end'
+                    marginLeft='auto'
                 >
                 <ModalHeader color='white' />
                 <ModalCloseButton color='white' border='solid' borderColor='white' borderRadius='full' />
@@ -56,7 +59,7 @@ export const MobileNavigation = ({onLogOut}: IRegularNavigationProps) => {
                     <Button variant='ghost' as={NextLink} href='/top-rated/'>Top rated</Button>
                     <Button variant='ghost' as={NextLink} href='/my-profile/'>My profile</Button>
                 </ModalBody>
-                <ModalFooter marginLeft='0'>
+                <ModalFooter alignSelf='flex-start'>
                     <Button variant='ghost' onClick={onLogOut}>Log out</Button>
                 </ModalFooter>
                 </ModalContent>

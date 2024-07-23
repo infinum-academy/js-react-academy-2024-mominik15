@@ -7,6 +7,7 @@ export const ProfileContainer = () => {
     const isRegular = variant ==='regular';
 
     return (
+        // probat s maxWidth
         <Flex direction='column' alignSelf='center' alignItems='center' width='100%' gap='40px'>
             <Flex direction='column' alignItems='center' color='white'>
                 <Text fontSize='14px'>

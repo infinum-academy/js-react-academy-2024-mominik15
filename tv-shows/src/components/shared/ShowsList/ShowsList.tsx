@@ -38,7 +38,7 @@ export const ShowsList = ({ topRated } : IShowsList) => {
     });
 
     return (
-        // pogledaj chakra grid component
+        // pogledaj chakra grid component - vjerojatno ima neki auto spacing i ovisno o sirini ekrana prikazi n stupaca
         <Flex
             display='grid'
             padding='31px'
@@ -47,7 +47,7 @@ export const ShowsList = ({ topRated } : IShowsList) => {
             gap='31px'
             border='none'
             gridTemplateColumns= 'repeat(auto-fit, 240px)'
-            flexGrow={1}
+            // flexGrow={1}
             height='100vh'
             width='100%'
             overflow='auto'
