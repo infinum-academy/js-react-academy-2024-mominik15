@@ -7,6 +7,7 @@ import { Button, Flex, FormControl, Input, Textarea, chakra } from "@chakra-ui/r
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 import useSWRMutation from "swr/mutation";
 
 const mockUser = {
@@ -14,22 +15,20 @@ const mockUser = {
     avatarUrl: 'https://fakeimg.pl/30x30/854d85/909090?text=User',
 };
 
-interface IReviewFormProps {
-    onAddReview: (review : IReviewItem) => void;
-}
-
 interface IReviewFormInputs {
     comment: string,
     rating: number,
 }
 
-export const ReviewForm = ({onAddReview} : IReviewFormProps) => {
-    const [comment, setComment] = useState('');
+export const ReviewForm = () => {
     const params = useParams();
-    const [selectedStars, setSelectedStars] = useState(0);
     const [hoveredStars, setHoveredStars] = useState(0);
-    const { register, unregister, handleSubmit, formState, getValues, reset } = useForm<IReviewFormInputs>();
-    const { trigger } = useSWRMutation(swrKeys.reviews, authenticatedCreator);
+    const { register, unregister, handleSubmit, getValues, reset } = useForm<IReviewFormInputs>();
+    const { trigger } = useSWRMutation(swrKeys.reviews, authenticatedCreator, {
+        onSuccess: (data) => {
+            mutate(`/reviews/${data.review.show_id}`);
+        }
+    });
 
     const onSubmitReview = async (data: IReviewFormInputs) => {
         if(!data.comment || !data.rating) {
@@ -50,7 +49,6 @@ export const ReviewForm = ({onAddReview} : IReviewFormProps) => {
                 avatarUrl: reviewBody.user.image_url,
             } as IUser,
         } as IReviewItem
-        onAddReview(newReviewItem);
         reset();
     };
 

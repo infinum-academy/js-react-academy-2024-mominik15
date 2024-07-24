@@ -5,24 +5,27 @@ import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
 import useSWRMutation from "swr/mutation";
 import { swrKeys } from "@/fetchers/swrKeys";
 import { authenticatedDeleter } from "@/fetchers/authenticatedMutators";
+import { mutate } from "swr";
 
 interface IReviewItemProps {
     reviewItem: IReviewItem;
-    onDeleteReview: (review : IReviewItem) => void;
 }
 
-export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => {
-    const { trigger } = useSWRMutation(swrKeys.review(reviewItem.id.toString()), authenticatedDeleter);
+export const ReviewItem = ({ reviewItem }: IReviewItemProps) => {
+    const { trigger } = useSWRMutation(swrKeys.review(reviewItem.id.toString()), authenticatedDeleter, {
+        onSuccess: () => {
+            mutate(`/reviews/${reviewItem.showId.toString()}`);
+        }
+    });
 
-    const onClickAction = async (reviewItem : IReviewItem) => {
+    const onDeleteAction = async (reviewItem : IReviewItem) => {
         await trigger(reviewItem.id);
-        onDeleteReview(reviewItem);
     };
 
     const userDataString = localStorage.getItem('userData') as string;
     const loggedInUserEmail = JSON.parse(userDataString).email;
-    const currentUserEmail = reviewItem.user.email;
-    const isByCurrentUser = currentUserEmail === loggedInUserEmail;
+    const reviewerEmail = reviewItem.user.email;
+    const isByCurrentUser = reviewerEmail === loggedInUserEmail;
 
     return (
         <Card
@@ -48,7 +51,7 @@ export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => 
                         return <Image alt='empty_star' key={index} src='/empty_star.png' width={5} />
                     })}
                 </Flex>
-                { isByCurrentUser && <IconButton aria-label="Delete todo" colorScheme="red" icon={<DeleteIcon />} onClick={() => onClickAction(reviewItem)} w="48px" /> }
+                { isByCurrentUser && <IconButton aria-label="Delete todo" colorScheme="red" icon={<DeleteIcon />} onClick={() => onDeleteAction(reviewItem)} w="48px" /> }
             </CardFooter>
         </Card>
     );

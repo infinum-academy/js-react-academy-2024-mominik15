@@ -15,7 +15,6 @@ export const ShowsList = ({ topRated } : IShowsList) => {
     
     if (isLoading) {
         console.log(showsResponse);
-        return <div>Loading...</div>;
 	}
     
 	if (error) {

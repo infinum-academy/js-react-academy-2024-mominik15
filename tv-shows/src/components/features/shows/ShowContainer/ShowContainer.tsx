@@ -53,27 +53,12 @@ export default function ShowContainer({ showProp } : IShowContainerProps) {
         id: showProp.id,
     };
 
-    const onAddReview = (newReviewItem: IReviewItem) => {
-        const newReviewList = {
-            reviews: [newReviewItem, ...reviewList.reviews]
-        };
-
-        setReviewList(newReviewList);
-    }
-
-    const onDeleteReview = ( reviewToDelete: IReviewItem ) => {
-        const newReviewList = {
-            reviews: reviewList.reviews.filter((review) => review !== reviewToDelete ),
-        };
-        setReviewList(newReviewList);
-    };
-
     const hasReviews = reviewList.reviews.length > 0;
 
     return (
         <Flex direction='column' backgroundColor='#2e0033' position='sticky' flexGrow={1} padding={10}>
             <ShowDetails show={myNewShow} hasReviews={hasReviews} />
-            <ShowReviewSection reviewList={reviewList} onDeleteReview={onDeleteReview} onAddReview={onAddReview} />
+            <ShowReviewSection reviewList={reviewList} />
         </Flex>
     );
 }
