@@ -56,7 +56,6 @@ const Container = helpers.defineMultiStyleConfig({
         padding: '0',
         form: {
             width: "100%",
-            minHeight: "100vh",
             font: 'body',
             color: 'white',
             display: 'flex',

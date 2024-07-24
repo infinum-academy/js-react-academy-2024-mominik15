@@ -1,4 +1,4 @@
-import { Flex, Grid, GridItem, SimpleGrid } from "@chakra-ui/react";
+import { Flex, Grid, GridItem, Hide, Show, SimpleGrid } from "@chakra-ui/react";
 import { ShowCard } from "../ShowCard/ShowCard";
 import useSWR from "swr";
 import { getAllShows, getTopRatedShows } from "@/fetchers/show";
@@ -38,20 +38,41 @@ export const ShowsList = ({ topRated } : IShowsList) => {
     });
 
     return (
-        <SimpleGrid
-            padding='31px'
-            backgroundColor='darkPurple'
-            gap='31px'
-            border='none'
-            height='100vh'
-            width='100vw'
-            overflow='auto'
-            columns={Math.floor((window.innerWidth-300)/255)}
-            autoFlow='row'
-        >
-            {shows.map((show, index) => {
-                return <ShowCard key={index} title={show.title} imageUrl={show.imageUrl} rating={show.averageRating} id={show.id} />;
-            })}
-        </SimpleGrid>
+        <>
+            <Hide breakpoint="(max-width: 800px)">
+                <SimpleGrid
+                    padding='31px'
+                    backgroundColor='darkPurple'
+                    gap='31px'
+                    border='none'
+                    height='100vh'
+                    width='100vw'
+                    overflow='auto'
+                    columns={Math.floor((window.innerWidth-300)/255)}
+                    autoFlow='row'
+                >
+                    {shows.map((show, index) => {
+                        return <ShowCard key={index} title={show.title} imageUrl={show.imageUrl} rating={show.averageRating} id={show.id} />;
+                    })}
+                </SimpleGrid>
+            </Hide>
+            <Show breakpoint="(max-width: 800px)">
+                <Flex
+                    direction='column'
+                    padding='31px'
+                    backgroundColor='darkPurple'
+                    gap='31px'
+                    border='none'
+                    height='100vh'
+                    width='100vw'
+                    overflow='auto'
+                    alignItems='center'
+                >
+                    {shows.map((show, index) => {
+                        return <ShowCard key={index} title={show.title} imageUrl={show.imageUrl} rating={show.averageRating} id={show.id} />;
+                    })}
+                </Flex>
+            </Show>
+        </>
     );
 }
