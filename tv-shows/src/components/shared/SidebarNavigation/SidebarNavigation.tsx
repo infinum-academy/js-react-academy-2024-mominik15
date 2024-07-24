@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Card, CardBody, CardFooter, CardHeader, Flex, Image, useStyleConfig } from "@chakra-ui/react";
+import { Button, Card, CardBody, CardFooter, CardHeader, Flex, Hide, Image, Show, useStyleConfig } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { RegularNavigation } from "../RegularNavigation/RegularNavigation";
 import { MobileNavigation } from "../MobileNavigation/MobileNavigation";
@@ -12,13 +12,18 @@ export const SidebarNavigation = () => {
         router.push('/login');
     };
 
-    // show/hide umjesto ovoga jer je to reaktivno, odredi breakdown (chakra komponenta)
-    const variant = window.innerWidth < 800 ? 'mobile' : 'regular';
-    const style= useStyleConfig('SidebarNavigation', {variant});
-
     return (
-        <Flex __css={style.flex as object}>
-            { variant === 'regular' ? <RegularNavigation onLogOut={onLogOut} /> : <MobileNavigation onLogOut={onLogOut} /> }
-        </Flex>
+        <>
+            <Hide breakpoint="(max-width: 800px)">
+                <Flex __css={useStyleConfig('SidebarNavigation', {variant: 'regular'}).flex as object}>
+                    <RegularNavigation onLogOut={onLogOut} />
+                </Flex>
+            </Hide>
+            <Show breakpoint="(max-width: 800px)">
+                <Flex __css={useStyleConfig('SidebarNavigation', {variant: 'mobile'}).flex as object}>
+                    <MobileNavigation onLogOut={onLogOut} />
+                </Flex>
+            </Show>
+        </>
     );
 }

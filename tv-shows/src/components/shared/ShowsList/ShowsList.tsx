@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Grid, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { ShowCard } from "../ShowCard/ShowCard";
 import useSWR from "swr";
 import { getAllShows, getTopRatedShows } from "@/fetchers/show";
@@ -38,23 +38,20 @@ export const ShowsList = ({ topRated } : IShowsList) => {
     });
 
     return (
-        // pogledaj chakra grid component - vjerojatno ima neki auto spacing i ovisno o sirini ekrana prikazi n stupaca
-        <Flex
-            display='grid'
+        <SimpleGrid
             padding='31px'
             backgroundColor='darkPurple'
-            gridAutoColumns='240px'
             gap='31px'
             border='none'
-            gridTemplateColumns= 'repeat(auto-fit, 240px)'
-            // flexGrow={1}
             height='100vh'
-            width='100%'
+            width='100vw'
             overflow='auto'
+            columns={Math.floor((window.innerWidth-300)/255)}
+            autoFlow='row'
         >
             {shows.map((show, index) => {
                 return <ShowCard key={index} title={show.title} imageUrl={show.imageUrl} rating={show.averageRating} id={show.id} />;
             })}
-        </Flex>
+        </SimpleGrid>
     );
 }

@@ -2,7 +2,7 @@
 
 import { mutator } from "@/fetchers/mutator";
 import { swrKeys } from "@/fetchers/swrKeys";
-import { FormControl, FormLabel, Heading, Input, chakra, Button, Alert, Flex, Text, useMultiStyleConfig, InputGroup, InputLeftElement, Icon, useStyleConfig } from "@chakra-ui/react";
+import { FormControl, Image, Input, chakra, Button, Alert, Flex, Text, useMultiStyleConfig, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import NextLink from 'next/link';
@@ -43,12 +43,15 @@ export const LoginForm = () => {
 
     return (
         <>
-            { loggedIn && <Alert status='success'>Login successful!</Alert>}
-            { !loggedIn && <chakra.form
+            { loggedIn && <Flex direction='column' alignItems='center' gap={5}>
+                <Text>Log in successful. Loading...</Text>
+                <Button isLoading variant='ghost' />
+            </Flex>}
+            { !loggedIn && <Flex><chakra.form
                 __css={styles.form}
                 onSubmit={handleSubmit(onLogin)}
             >
-                <Heading>Login</Heading>
+                <Image alt='logo' src='/logo.svg' />
                 <FormControl isRequired={true}>
                     <InputGroup>
                         <InputLeftElement height='100%' marginLeft='18px'>
@@ -82,9 +85,9 @@ export const LoginForm = () => {
                     </InputGroup>
                 </FormControl>
                 <Button isLoading={loading} type='submit' marginTop='23px' marginBottom='28px'>LOG IN</Button>
-            </chakra.form> }
+            </chakra.form> </Flex> }
             { !formState.isValid && <Alert status='error'>Invalid credentials, try again!</Alert>}
-            { !loggedIn && <Flex>
+            { !loggedIn && <Flex alignSelf='center'>
                 <Text>Don't have an account?</Text>
                 <Text as={NextLink} href='/register' fontWeight='bold' marginLeft={1}>Register</Text>
             </Flex>

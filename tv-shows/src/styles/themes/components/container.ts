@@ -10,6 +10,7 @@ const Container = helpers.defineMultiStyleConfig({
   baseStyle: {
     backgroundColor: 'purple',
     color: 'white',
+    padding: '56px',
     form: {
         font: 'body',
         color: 'white',
@@ -35,7 +36,7 @@ const Container = helpers.defineMultiStyleConfig({
   },
   variants: {
     regular: {
-        borderRadius: '16px',
+        borderRadius: '25px',
         padding: '56px',
         boxShadow: '0px 0px 9px rgba(0, 0, 0, 0.7)',
         form: {
@@ -47,6 +48,7 @@ const Container = helpers.defineMultiStyleConfig({
             flexDirection: 'column',
             alignItems: 'center',
             gap: '9',
+            borderRadius: '25px',
         },
     },
     mobile: {
