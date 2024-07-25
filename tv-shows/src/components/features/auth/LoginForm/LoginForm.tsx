@@ -7,7 +7,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import NextLink from 'next/link';
 import useSWRMutation from "swr/mutation";
-import { EmailIcon, LockIcon, UnlockIcon } from "@chakra-ui/icons";
+import { EmailIcon, LockIcon } from "@chakra-ui/icons";
+import { FormComponent } from "@/components/shared/FormComponent/FormComponent";
 
 interface ILoginFormInputs {
     email: string,
@@ -19,8 +20,6 @@ export const LoginForm = () => {
     const [loading, setLoading] = useState(false);
     const { register, handleSubmit, formState } = useForm<ILoginFormInputs>();
     const { trigger } = useSWRMutation(swrKeys.logIn, mutator);
-    const variant = window.innerWidth < 800 ? 'mobile' : 'regular';
-    const styles = useMultiStyleConfig('Container', {variant});
 
     const onLogin = async (data: ILoginFormInputs) => {
         setLoading(true);
@@ -47,10 +46,7 @@ export const LoginForm = () => {
                 <Text>Log in successful. Loading...</Text>
                 <Button isLoading variant='ghost' />
             </Flex>}
-            { !loggedIn && <Flex><chakra.form
-                __css={styles.form}
-                onSubmit={handleSubmit(onLogin)}
-            >
+            { !loggedIn && <Flex><FormComponent onSubmit={handleSubmit(onLogin)}>
                 <Image alt='logo' src='/logo.svg' />
                 <FormControl isRequired={true}>
                     <InputGroup>
@@ -85,7 +81,7 @@ export const LoginForm = () => {
                     </InputGroup>
                 </FormControl>
                 <Button isLoading={loading} type='submit' marginTop='23px' marginBottom='28px'>LOG IN</Button>
-            </chakra.form> </Flex> }
+            </FormComponent> </Flex> }
             { !formState.isValid && <Alert status='error'>Invalid credentials, try again!</Alert>}
             { !loggedIn && <Flex alignSelf='center'>
                 <Text>Don't have an account?</Text>

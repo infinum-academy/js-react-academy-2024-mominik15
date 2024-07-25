@@ -2,7 +2,7 @@ import { defineStyleConfig } from "@chakra-ui/react";
 
 const Card = defineStyleConfig({
     baseStyle: {
-        borderRadius: '25px',
+        borderRadius: 'common',
     },
     variants: {
         purple: {

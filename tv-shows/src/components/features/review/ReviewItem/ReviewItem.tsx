@@ -23,21 +23,19 @@ export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => 
     const loggedInUserEmail = JSON.parse(userDataString).email;
     const currentUserEmail = reviewItem.user.email;
     const isByCurrentUser = currentUserEmail === loggedInUserEmail;
-    const variant = window.innerWidth < 800 ? 'mobile' : 'regular';
-    const isRegular = variant ==='regular';
 
     return (
         <Flex
             direction='row'
             background='purple'
             width='100%'
-            borderRadius='26px'
+            borderRadius='common'
             color='white'
             padding={5}
             gap={3}
             justifyContent='space-between'
         >
-            <Flex direction={isRegular ? 'row' : 'column'} gap={4}>
+            <Flex direction={{base: 'column', md: 'row'}} gap={4}>
                 <Flex display='flex' margin='0' direction='row'>
                     <UserImage url={reviewItem.user.avatarUrl}/>
                     <Flex direction='column' gap={2} marginLeft={2}>

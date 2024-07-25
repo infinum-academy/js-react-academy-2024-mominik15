@@ -15,7 +15,7 @@ export const ShowCard = ({ imageUrl, title, rating, id } : IShowCard) => {
             height='375px'
             backgroundColor='white'
             color='purple'
-            borderRadius='26px'
+            borderRadius='common'
             boxShadow='0px 0px 9px rgba(0, 0, 0, 0.7)'
             _hover={{cursor: 'pointer'}}
             onClick={() => {}}

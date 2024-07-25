@@ -1,30 +1,12 @@
 'use client';
 
-import { AuthRedirect } from "@/components/shared/AuthRedirect/AuthRedirect";
+import { Main } from "@/components/core/Main/Main";
 import { ShowsList } from "@/components/shared/ShowsList/ShowsList";
-import { SidebarNavigation } from "@/components/shared/SidebarNavigation/SidebarNavigation";
-import { Show, Hide, chakra, useStyleConfig } from "@chakra-ui/react";
 
 export default function Home() {
-  const variant = window.innerWidth < 800 ? 'mobile' : 'regular';
-  const style = useStyleConfig('Main', {variant});
-
   return (
-    <>
-      <Hide breakpoint="(max-width: 800px)">
-        <chakra.main __css={useStyleConfig('Main', {variant: 'regular'})}>
-            <AuthRedirect to='/login' condition='isLoggedOut'/>
-            <SidebarNavigation />
-            <ShowsList topRated={false} />
-        </chakra.main>
-      </Hide>
-      <Show breakpoint="(max-width: 800px)">
-        <chakra.main __css={useStyleConfig('Main', {variant: 'mobile'})}>
-            <AuthRedirect to='/login' condition='isLoggedOut'/>
-            <SidebarNavigation />
-            <ShowsList topRated={false} />
-        </chakra.main>
-      </Show>
-    </>
+    <Main>
+      <ShowsList topRated={true} />
+    </Main>
   );
 }

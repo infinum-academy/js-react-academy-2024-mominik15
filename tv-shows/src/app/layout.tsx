@@ -18,7 +18,7 @@ import { Providers } from './providers'
         </head>
         <body>
           <Providers>
-            <Flex direction='row' backgroundColor='#dddddd' height='100%'>
+            <Flex direction='row' height='100%'>
               {children}
             </Flex>
           </Providers>

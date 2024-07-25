@@ -17,8 +17,6 @@ export default function ShowContainer({ showProp } : IShowContainerProps) {
     const params = useParams();
     const [reviewList, setReviewList] = useState({ reviews: []} as IReviewList);
     const { data: reviewsResponse } = useSWR(`/reviews/${params.id}`, () => getShowReviews(params.id as string));
-    const variant = window.innerWidth < 800 ? 'mobile' : 'regular';
-    const isRegular = variant ==='regular';
 
     useEffect(() => {
         const showReviewList = reviewsResponse ? {
@@ -78,7 +76,7 @@ export default function ShowContainer({ showProp } : IShowContainerProps) {
             backgroundColor='darkPurple'
             position='sticky'
             flexGrow={1}
-            padding={isRegular ? 10 : 3}
+            padding={{base: 3, md: 10}}
             height='100vh'
             overflow='auto'
         >
