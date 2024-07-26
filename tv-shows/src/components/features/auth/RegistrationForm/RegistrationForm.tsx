@@ -2,13 +2,14 @@
 
 import { mutator } from "@/fetchers/mutator";
 import { swrKeys } from "@/fetchers/swrKeys";
-import { Image, Flex, FormControl, FormLabel, Heading, Input, chakra, Button, Alert, InputGroup, InputLeftElement, Text } from "@chakra-ui/react";
+import { Image, Flex, FormControl, chakra, Button, Alert, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import NextLink from 'next/link';
 import useSWRMutation from "swr/mutation";
-import { EmailIcon, LockIcon } from "@chakra-ui/icons";
+import { EmailInput } from "../EmailInput/EmailInput";
+import { PasswordInput } from "../PasswordInput/PasswordInput";
 
 interface IRegistrationFormInputs {
     email: string,
@@ -51,52 +52,26 @@ export const RegistrationForm = () => {
             >
                 <Image alt='logo' src='/logo.svg' />
                 <FormControl isRequired={true}>
-                    <InputGroup>
-                        <InputLeftElement height='100%' marginLeft='18px'>
-                            <EmailIcon />
-                        </InputLeftElement>
-                        <Input
-                            placeholder='Email'
-                            errorBorderColor='crimson'
-                            required
-                            type='email'
-                            isInvalid={!formState.isValid}
-                            disabled={formState.isSubmitting}
-                            {...register('email')}
-                        />
-                    </InputGroup>
+                    <EmailInput
+                        isInvalid={!formState.isValid}
+                        disabled={formState.isSubmitting}
+                        {...register('email')}
+                    />
                 </FormControl>
                 <FormControl isRequired={true}>
-                    <InputGroup>
-                        <InputLeftElement height='100%' marginLeft='18px'>
-                            <LockIcon />
-                        </InputLeftElement>
-                        <Input
-                            isInvalid={!formState.isValid}
-                            errorBorderColor='crimson'
-                            disabled={formState.isSubmitting}
-                            {...register('password')}
-                            required
-                            placeholder="Password"
-                            type='password'
-                        />
-                    </InputGroup>
+                    <PasswordInput
+                        isInvalid={!formState.isValid}
+                        disabled={formState.isSubmitting}
+                        {...register('password')}
+                    />
                 </FormControl>
                 <FormControl isRequired={true}>
-                    <InputGroup>
-                        <InputLeftElement height='100%' marginLeft='18px'>
-                            <LockIcon />
-                        </InputLeftElement>
-                        <Input
-                            isInvalid={!formState.isValid}
-                            errorBorderColor='crimson'
-                            disabled={formState.isSubmitting}
-                            {...register('passwordConfirmation')}
-                            required
-                            placeholder="Password comfirmation"
-                            type='password'
-                        />
-                    </InputGroup>
+                    <PasswordInput
+                        isInvalid={!formState.isValid}
+                        disabled={formState.isSubmitting}
+                        {...register('passwordConfirmation')}
+                        placeholder="Password comfirmation"
+                    />
                 </FormControl>
                 <Button isLoading={loading} type='submit'>SIGN UP</Button>
                 { registrationStatus === 'passwordsNotMatched' && <Alert status='error'>Passwords do not match.</Alert> }

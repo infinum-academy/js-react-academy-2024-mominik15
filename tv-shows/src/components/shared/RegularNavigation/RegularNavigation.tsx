@@ -1,3 +1,4 @@
+import { Planner } from "@/components/features/planner/Planner/Planner";
 import { Card, CardHeader, CardBody, CardFooter, Image, Button } from "@chakra-ui/react";
 import NextLink from 'next/link';
 
@@ -15,6 +16,7 @@ export const RegularNavigation = ({onLogOut}: IRegularNavigationProps) => {
                 <Button variant='ghost' as={NextLink} href='/all-shows/'>All shows</Button>
                 <Button variant='ghost' as={NextLink} href='/top-rated/'>Top rated</Button>
                 <Button variant='ghost' as={NextLink} href='/my-profile/'>My profile</Button>
+                <Planner />
             </CardBody>
             <CardFooter>
                 <Button variant='ghost' onClick={onLogOut}>Log out</Button>

@@ -1,3 +1,4 @@
+import { Planner } from "@/components/features/planner/Planner/Planner";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Image, Flex, useDisclosure, Button } from "@chakra-ui/react";
 import {
@@ -32,9 +33,12 @@ export const MobileNavigation = ({onLogOut}: IRegularNavigationProps) => {
                 padding='12px 16px'
             >
                 <Image src='/logo.svg' alt='TV show logo' width='200px' height='40px' />
-                <Button onClick={onOpen} variant='ghost' width='30px' height='30px' padding={5}>
-                    <HamburgerIcon />
-                </Button>
+                <Flex alignItems='center'>
+                    <Planner />
+                    <Button onClick={onOpen} variant='ghost' width='30px' height='30px' padding={5}>
+                        <HamburgerIcon />
+                    </Button>
+                </Flex>
             </Flex>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

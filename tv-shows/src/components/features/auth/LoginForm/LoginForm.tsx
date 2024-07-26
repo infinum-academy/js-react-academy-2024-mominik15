@@ -2,13 +2,14 @@
 
 import { mutator } from "@/fetchers/mutator";
 import { swrKeys } from "@/fetchers/swrKeys";
-import { FormControl, Image, Input, chakra, Button, Alert, Flex, Text, useMultiStyleConfig, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import { FormControl, Image, Input, chakra, Button, Alert, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import NextLink from 'next/link';
 import useSWRMutation from "swr/mutation";
-import { EmailIcon, LockIcon } from "@chakra-ui/icons";
 import { FormComponent } from "@/components/shared/FormComponent/FormComponent";
+import { PasswordInput } from "../PasswordInput/PasswordInput";
+import { EmailInput } from "../EmailInput/EmailInput";
 
 interface ILoginFormInputs {
     email: string,
@@ -49,36 +50,18 @@ export const LoginForm = () => {
             { !loggedIn && <Flex><FormComponent onSubmit={handleSubmit(onLogin)}>
                 <Image alt='logo' src='/logo.svg' />
                 <FormControl isRequired={true}>
-                    <InputGroup>
-                        <InputLeftElement height='100%' marginLeft='18px'>
-                            <EmailIcon />
-                        </InputLeftElement>
-                        <Input
-                            placeholder='Email'
-                            errorBorderColor='crimson'
-                            required
-                            type='email'
-                            isInvalid={!formState.isValid}
-                            disabled={formState.isSubmitting}
-                            {...register('email')}
-                        />
-                    </InputGroup>
+                    <EmailInput
+                        isInvalid={!formState.isValid}
+                        disabled={formState.isSubmitting}
+                        {...register('email')}
+                    />
                 </FormControl>
                 <FormControl isRequired={true}>
-                    <InputGroup>
-                        <InputLeftElement height='100%' marginLeft='18px'>
-                            <LockIcon />
-                        </InputLeftElement>
-                        <Input
-                            isInvalid={!formState.isValid}
-                            errorBorderColor='crimson'
-                            disabled={formState.isSubmitting}
-                            {...register('password')}
-                            required
-                            placeholder="Password"
-                            type='password'
-                        />
-                    </InputGroup>
+                    <PasswordInput
+                        isInvalid={!formState.isValid}
+                        disabled={formState.isSubmitting}
+                        {...register('password')}
+                    />
                 </FormControl>
                 <Button isLoading={loading} type='submit' marginTop='23px' marginBottom='28px'>LOG IN</Button>
             </FormComponent> </Flex> }
