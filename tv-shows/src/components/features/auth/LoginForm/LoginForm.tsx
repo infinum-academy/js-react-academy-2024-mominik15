@@ -18,15 +18,12 @@ interface ILoginFormInputs {
 
 export const LoginForm = () => {
     const [loggedIn, setLoggedIn] = useState(false);
-    const [loading, setLoading] = useState(false);
     const { register, handleSubmit, formState } = useForm<ILoginFormInputs>();
     const { trigger } = useSWRMutation(swrKeys.logIn, mutator);
 
     const onLogin = async (data: ILoginFormInputs) => {
-        setLoading(true);
         const response = await trigger(data);
         if (!response.ok) {
-            setLoading(false);
             return
         }
         const body = await response.json();
@@ -35,7 +32,6 @@ export const LoginForm = () => {
             client: response.headers.get('client'),
             email: body.user.email,
         };
-        setLoading(false);
         setLoggedIn(true);
 
         localStorage.setItem('userData', JSON.stringify(userData));
@@ -63,7 +59,7 @@ export const LoginForm = () => {
                         {...register('password')}
                     />
                 </FormControl>
-                <Button isLoading={loading} type='submit' marginTop='23px' marginBottom='28px'>LOG IN</Button>
+                <Button isLoading={formState.isLoading} type='submit' marginTop='23px' marginBottom='28px'>LOG IN</Button>
             </FormComponent> </Flex> }
             { !formState.isValid && <Alert status='error'>Invalid credentials, try again!</Alert>}
             { !loggedIn && <Flex alignSelf='center'>
