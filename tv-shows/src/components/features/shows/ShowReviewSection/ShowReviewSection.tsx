@@ -6,16 +6,14 @@ import { Heading } from "@chakra-ui/react";
 
 interface IShowReviewSectionProps {
     reviewList: IReviewList;
-    onAddReview: (review : IReviewItem) => void;
-    onDeleteReview: (review : IReviewItem) => void;
 };
 
-export const ShowReviewSection = ({reviewList, onAddReview, onDeleteReview} : IShowReviewSectionProps) => {
+export const ShowReviewSection = ({reviewList} : IShowReviewSectionProps) => {
     return (
         <>
             <Heading color='white' size='lg' marginBottom={2}>Reviews</Heading>
-            <ReviewForm onAddReview={onAddReview}/>
-            <ReviewList reviewList={reviewList} onDeleteReview={onDeleteReview} />
+            <ReviewForm />
+            <ReviewList reviewList={reviewList} />
         </>
     );
 };

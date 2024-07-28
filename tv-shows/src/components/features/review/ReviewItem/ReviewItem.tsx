@@ -2,13 +2,31 @@ import { IReviewItem } from "@/typings/Review";
 import { Flex, IconButton, Image, Text } from "@chakra-ui/react";
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
+import useSWRMutation from "swr/mutation";
+import { swrKeys } from "@/fetchers/swrKeys";
+import { authenticatedDeleter } from "@/fetchers/authenticatedMutators";
+import { mutate } from "swr";
 
 interface IReviewItemProps {
     reviewItem: IReviewItem;
-    onDeleteReview: (review : IReviewItem) => void;
 }
 
-export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => {
+export const ReviewItem = ({ reviewItem }: IReviewItemProps) => {
+    const { trigger } = useSWRMutation(swrKeys.review(reviewItem.id.toString()), authenticatedDeleter, {
+        onSuccess: () => {
+            mutate(`/reviews/${reviewItem.showId.toString()}`);
+        }
+    });
+
+    const onDeleteAction = async (reviewItem : IReviewItem) => {
+        await trigger(reviewItem.id);
+    };
+
+    const userDataString = localStorage.getItem('userData') as string;
+    const loggedInUserEmail = JSON.parse(userDataString).email;
+    const reviewerEmail = reviewItem.user.email;
+    const isByCurrentUser = reviewerEmail === loggedInUserEmail;
+
     return (
         <Card
             direction='column'
@@ -22,7 +40,7 @@ export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => 
                 <Text as='i'>{reviewItem.user.email}</Text>
             </CardHeader>
             <CardBody padding={1.5}>
-                <Text>{reviewItem.text}</Text>
+                <Text>{reviewItem.comment}</Text>
             </CardBody>
             <CardFooter justifyContent='space-between' alignItems='center' padding={1.5}>
                 <Flex>
@@ -33,7 +51,7 @@ export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => 
                         return <Image alt='empty_star' key={index} src='/empty_star.png' width={5} />
                     })}
                 </Flex>
-                <IconButton aria-label="Delete todo" colorScheme="red" icon={<DeleteIcon />} onClick={() => onDeleteReview(reviewItem)} w="48px" />
+                { isByCurrentUser && <IconButton aria-label="Delete todo" colorScheme="red" icon={<DeleteIcon />} onClick={() => onDeleteAction(reviewItem)} w="48px" /> }
             </CardFooter>
         </Card>
     );

@@ -1,41 +1,35 @@
 import { InputStar } from "@/components/core/InputStar/InputStar";
-import { IReviewItem } from "@/typings/Review";
+import { authenticatedCreator } from "@/fetchers/authenticatedMutators";
+import { swrKeys } from "@/fetchers/swrKeys";
 import { Button, Flex, FormControl, Input, Textarea, chakra } from "@chakra-ui/react";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
-interface IReviewFormProps {
-    onAddReview: (review: IReviewItem) => void;
-};
-
-const mockUser = {
-    email: 'mock.user@mail.com',
-    avatarUrl: 'https://fakeimg.pl/30x30/854d85/909090?text=User',
-};
+import { mutate } from "swr";
+import useSWRMutation from "swr/mutation";
 
 interface IReviewFormInputs {
     comment: string,
     rating: number,
 }
 
-export const ReviewForm = ({ onAddReview }: IReviewFormProps) => {
-    const [comment, setComment] = useState('');
-    const [selectedStars, setSelectedStars] = useState(0);
+export const ReviewForm = () => {
+    const params = useParams();
     const [hoveredStars, setHoveredStars] = useState(0);
-    const { register, unregister, handleSubmit, formState, getValues, reset } = useForm<IReviewFormInputs>();
+    const { register, unregister, handleSubmit, getValues, reset } = useForm<IReviewFormInputs>();
+    const { trigger } = useSWRMutation(swrKeys.reviews, authenticatedCreator, {
+        onSuccess: (data) => {
+            mutate(`/reviews/${data.review.show_id}`);
+        }
+    });
 
-    const onSubmitReview = (data: IReviewFormInputs) => {
+    const onSubmitReview = async (data: IReviewFormInputs) => {
         if(!data.comment || !data.rating) {
             alert('Both comment and rating need to be filled!');
             return;
         };
 
-        const newReview: IReviewItem = {
-            text: data.comment,
-            rating: data.rating,
-            user: mockUser
-        };
-        onAddReview(newReview);
+        await trigger({...data, show_id: params.id });
         reset();
     };
 
@@ -49,7 +43,7 @@ export const ReviewForm = ({ onAddReview }: IReviewFormProps) => {
             marginBottom={6}
             onSubmit={handleSubmit(onSubmitReview)}
         >
-            <FormControl isRequired={true}>
+            <FormControl isRequired={true} >
                 <Textarea
                     background='#7c727d'
                     color='black'
