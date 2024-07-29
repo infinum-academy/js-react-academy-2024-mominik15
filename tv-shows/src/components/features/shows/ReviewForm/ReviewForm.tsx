@@ -7,27 +7,23 @@ import { Button, Flex, FormControl, FormLabel, Input, Textarea, chakra } from "@
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 import useSWRMutation from "swr/mutation";
-
-const mockUser = {
-    email: 'mock.user@mail.com',
-    avatarUrl: 'https://fakeimg.pl/30x30/854d85/909090?text=User',
-};
-
-interface IReviewFormProps {
-    onAddReview: (review : IReviewItem) => void;
-}
 
 interface IReviewFormInputs {
     comment: string,
     rating: number,
 }
 
-export const ReviewForm = ({onAddReview} : IReviewFormProps) => {
+export const ReviewForm = () => {
     const params = useParams();
     const [hoveredStars, setHoveredStars] = useState(0);
-    const { register, unregister, handleSubmit, formState, getValues, reset } = useForm<IReviewFormInputs>();
-    const { trigger } = useSWRMutation(swrKeys.reviews, authenticatedCreator);
+    const { register, unregister, handleSubmit, getValues, reset } = useForm<IReviewFormInputs>();
+    const { trigger } = useSWRMutation(swrKeys.reviews, authenticatedCreator, {
+        onSuccess: (data) => {
+            mutate(`/reviews/${data.review.show_id}`);
+        }
+    });
 
     const onSubmitReview = async (data: IReviewFormInputs) => {
         if(!data.comment || !data.rating) {
@@ -35,20 +31,7 @@ export const ReviewForm = ({onAddReview} : IReviewFormProps) => {
             return;
         };
 
-        const response = await trigger({...data, show_id: params.id });
-        const reviewBody = response.review;
-        const newReviewItem = {
-            id: parseInt(reviewBody.id),
-            comment: reviewBody.comment,
-            rating: reviewBody.rating,
-            showId: reviewBody.show_id,
-            user: {
-                id: parseInt(reviewBody.user.id),
-                email: reviewBody.user.email,
-                avatarUrl: reviewBody.user.image_url,
-            } as IUser,
-        } as IReviewItem
-        onAddReview(newReviewItem);
+        await trigger({...data, show_id: params.id });
         reset();
     };
 

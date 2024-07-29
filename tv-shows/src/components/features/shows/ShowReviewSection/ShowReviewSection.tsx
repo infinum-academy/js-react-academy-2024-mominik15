@@ -1,16 +1,13 @@
-import { Fragment, useEffect, useState } from "react";
 import { ReviewList } from "../../review/ReviewList/ReviewList";
 import { ReviewForm } from "../ReviewForm/ReviewForm";
-import { IReviewItem, IReviewList } from "@/typings/Review";
+import { IReviewList } from "@/typings/Review";
 import { Flex, Heading } from "@chakra-ui/react";
 
 interface IShowReviewSectionProps {
     reviewList: IReviewList;
-    onAddReview: (review : IReviewItem) => void;
-    onDeleteReview: (review : IReviewItem) => void;
 };
 
-export const ShowReviewSection = ({reviewList, onAddReview, onDeleteReview} : IShowReviewSectionProps) => {
+export const ShowReviewSection = ({reviewList} : IShowReviewSectionProps) => {
     return (
         <Flex
             width='100%'
@@ -19,8 +16,8 @@ export const ShowReviewSection = ({reviewList, onAddReview, onDeleteReview} : IS
         >
             <Heading color='white' size='lg' fontWeight='400' marginBottom={2}>Reviews</Heading>
             <Flex direction='column' width='100%'>
-                <ReviewForm onAddReview={onAddReview} />
-                <ReviewList reviewList={reviewList} onDeleteReview={onDeleteReview} />
+                <ReviewForm />
+                <ReviewList reviewList={reviewList} />
             </Flex>
         </Flex>
     );

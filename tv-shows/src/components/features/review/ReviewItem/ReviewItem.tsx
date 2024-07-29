@@ -5,24 +5,27 @@ import useSWRMutation from "swr/mutation";
 import { swrKeys } from "@/fetchers/swrKeys";
 import { authenticatedDeleter } from "@/fetchers/authenticatedMutators";
 import { UserImage } from "@/components/core/UserImage/UserImage";
+import { mutate } from "swr";
 
 interface IReviewItemProps {
     reviewItem: IReviewItem;
-    onDeleteReview: (review : IReviewItem) => void;
 }
 
-export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => {
-    const { trigger } = useSWRMutation(swrKeys.review(reviewItem.id.toString()), authenticatedDeleter);
+export const ReviewItem = ({ reviewItem }: IReviewItemProps) => {
+    const { trigger } = useSWRMutation(swrKeys.review(reviewItem.id.toString()), authenticatedDeleter, {
+        onSuccess: () => {
+            mutate(`/reviews/${reviewItem.showId.toString()}`);
+        }
+    });
 
-    const onClickAction = async (reviewItem : IReviewItem) => {
+    const onDeleteAction = async (reviewItem : IReviewItem) => {
         await trigger(reviewItem.id);
-        onDeleteReview(reviewItem);
     };
 
     const userDataString = localStorage.getItem('userData') as string;
     const loggedInUserEmail = JSON.parse(userDataString).email;
-    const currentUserEmail = reviewItem.user.email;
-    const isByCurrentUser = currentUserEmail === loggedInUserEmail;
+    const reviewerEmail = reviewItem.user.email;
+    const isByCurrentUser = reviewerEmail === loggedInUserEmail;
 
     return (
         <Flex
@@ -55,7 +58,7 @@ export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => 
                 </Flex>
             </Flex>
             <Flex alignItems='center' padding={1.5}>
-                { isByCurrentUser && <IconButton borderRadius='full' aria-label="Delete todo" colorScheme="red" icon={<DeleteIcon />} onClick={() => onClickAction(reviewItem)} w="40px" h="40px" /> }
+                { isByCurrentUser && <IconButton borderRadius='full' aria-label="Delete todo" colorScheme="red" icon={<DeleteIcon />} onClick={() => onDeleteAction(reviewItem)} w="40px" h="40px" /> }
             </Flex>
         </Flex>
     );
