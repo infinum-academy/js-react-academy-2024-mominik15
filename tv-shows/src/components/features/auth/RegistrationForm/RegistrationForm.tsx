@@ -2,12 +2,14 @@
 
 import { mutator } from "@/fetchers/mutator";
 import { swrKeys } from "@/fetchers/swrKeys";
-import { Flex, FormControl, FormLabel, Heading, Input, chakra, Button, Alert } from "@chakra-ui/react";
+import { Image, Flex, FormControl, chakra, Button, Alert, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import NextLink from 'next/link';
 import useSWRMutation from "swr/mutation";
+import { EmailInput } from "../EmailInput/EmailInput";
+import { PasswordInput } from "../PasswordInput/PasswordInput";
 
 interface IRegistrationFormInputs {
     email: string,
@@ -18,7 +20,7 @@ interface IRegistrationFormInputs {
 export const RegistrationForm = () => {
     const [registrationStatus, setRegistrationStatus] = useState('unregistered');
     const [loading, setLoading] = useState(false);
-    const { register, handleSubmit } = useForm<IRegistrationFormInputs>();
+    const { register, handleSubmit, formState } = useForm<IRegistrationFormInputs>();
     const router = useRouter();
     const { trigger } = useSWRMutation(swrKeys.users, mutator);
 
@@ -48,25 +50,35 @@ export const RegistrationForm = () => {
                 gap={3}
                 onSubmit={handleSubmit(onRegister)}
             >
-                <Heading>Register</Heading>
+                <Image alt='logo' src='/logo.svg' />
                 <FormControl isRequired={true}>
-                    <FormLabel>Email</FormLabel>
-                    <Input {...register('email')} required type='email' />
+                    <EmailInput
+                        isInvalid={!formState.isValid}
+                        disabled={formState.isSubmitting}
+                        {...register('email')}
+                    />
                 </FormControl>
                 <FormControl isRequired={true}>
-                    <FormLabel>Password</FormLabel>
-                    <Input {...register('password')} required type='password' />
+                    <PasswordInput
+                        isInvalid={!formState.isValid}
+                        disabled={formState.isSubmitting}
+                        {...register('password')}
+                    />
                 </FormControl>
                 <FormControl isRequired={true}>
-                    <FormLabel>Password confirmation</FormLabel>
-                    <Input {...register('passwordConfirmation')} required type='password' />
+                    <PasswordInput
+                        isInvalid={!formState.isValid}
+                        disabled={formState.isSubmitting}
+                        {...register('passwordConfirmation')}
+                        placeholder="Password comfirmation"
+                    />
                 </FormControl>
-                <Button isLoading={loading} type='submit'>Register</Button>
+                <Button isLoading={loading} type='submit'>SIGN UP</Button>
                 { registrationStatus === 'passwordsNotMatched' && <Alert status='error'>Passwords do not match.</Alert> }
             </chakra.form> }
-            <Flex direction='column' alignItems='center' gap={3} marginTop={5}>
-                <Heading size='md'>Already have an account?</Heading>
-                <Button as={NextLink} href='/login'>Log in</Button>
+            <Flex alignSelf='center' marginTop={5}>
+                <Text>Don't have an account?</Text>
+                <Text as={NextLink} href='/login' fontWeight='bold' marginLeft={1}>Log in</Text>
             </Flex>
         </>
     );

@@ -1,71 +1,70 @@
 import { InputStar } from "@/components/core/InputStar/InputStar";
+import { authenticatedCreator } from "@/fetchers/authenticatedMutators";
+import { swrKeys } from "@/fetchers/swrKeys";
 import { IReviewItem } from "@/typings/Review";
-import { Button, Flex, FormControl, Input, Textarea, chakra } from "@chakra-ui/react";
+import { IUser } from "@/typings/User";
+import { Button, Flex, FormControl, FormLabel, Input, Textarea, chakra } from "@chakra-ui/react";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
-interface IReviewFormProps {
-    onAddReview: (review: IReviewItem) => void;
-};
-
-const mockUser = {
-    email: 'mock.user@mail.com',
-    avatarUrl: 'https://fakeimg.pl/30x30/854d85/909090?text=User',
-};
+import { mutate } from "swr";
+import useSWRMutation from "swr/mutation";
 
 interface IReviewFormInputs {
     comment: string,
     rating: number,
 }
 
-export const ReviewForm = ({ onAddReview }: IReviewFormProps) => {
-    const [comment, setComment] = useState('');
-    const [selectedStars, setSelectedStars] = useState(0);
+export const ReviewForm = () => {
+    const params = useParams();
     const [hoveredStars, setHoveredStars] = useState(0);
-    const { register, unregister, handleSubmit, formState, getValues, reset } = useForm<IReviewFormInputs>();
+    const { register, unregister, handleSubmit, getValues, reset } = useForm<IReviewFormInputs>();
+    const { trigger } = useSWRMutation(swrKeys.reviews, authenticatedCreator, {
+        onSuccess: (data) => {
+            mutate(`/reviews/${data.review.show_id}`);
+        }
+    });
 
-    const onSubmitReview = (data: IReviewFormInputs) => {
+    const onSubmitReview = async (data: IReviewFormInputs) => {
         if(!data.comment || !data.rating) {
             alert('Both comment and rating need to be filled!');
             return;
         };
 
-        const newReview: IReviewItem = {
-            text: data.comment,
-            rating: data.rating,
-            user: mockUser
-        };
-        onAddReview(newReview);
+        await trigger({...data, show_id: params.id });
         reset();
     };
 
+    const isEnabled = Boolean(getValues('comment') && getValues('rating'));
+
     return (
         <chakra.form
-            background='#3d363d'
+            background='darkPurple'
             width='100%'
             padding={2}
-            borderRadius={10}
             flexDirection='column'
             marginBottom={6}
             onSubmit={handleSubmit(onSubmitReview)}
         >
-            <FormControl isRequired={true}>
+            <FormControl isRequired={true} >
                 <Textarea
-                    background='#7c727d'
+                    background='white'
                     color='black'
-                    resize='vertical'
-                    placeholder='Add review...'
-                    borderColor='#352a36'
-                    focusBorderColor='#554157'
-                    id='review-textarea'
+                    resize='none'
+                    placeholder='Review'
+                    borderRadius='common'
+                    padding='28px 40px'
                     {...register('comment')}
                 />
             </FormControl>
             <Flex marginTop={2}
                 direction='row'
                 justifyContent='space-between'
+                paddingTop='23px'
+                paddingLeft={{base: '0', md: '39px'}}
             >
-                <FormControl display='flex' flexDirection='row' alignItems='center' isRequired={true}>
+                <FormControl display='flex' flexDirection='row' verticalAlign='center' alignItems='center' isRequired={true}>
+                    <FormLabel color='white' marginTop={2}>Rating</FormLabel>
                     { Array(5).fill(1).map((_n, index) => {
                             let filledStars = getValues('rating');
                             if (hoveredStars) {
@@ -87,7 +86,13 @@ export const ReviewForm = ({ onAddReview }: IReviewFormProps) => {
                             );
                         })}
                 </FormControl>
-                <Button colorScheme="purple" type='submit'>Post</Button>
+                <Button
+                    isDisabled={isEnabled ? false : true}
+                    variant={isEnabled ? 'solid' : 'disabled'}
+                    type='submit'
+                >
+                    POST
+                </Button>
             </Flex>
         </chakra.form>
     );

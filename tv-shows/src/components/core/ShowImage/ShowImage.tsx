@@ -13,7 +13,7 @@ export const ShowImage = ({ url, title }: IShowImage) => {
             src={imageUrl}
             alt={title}
             border='none'
-            borderTopRadius={10}
+            borderTopRadius='common'
             objectFit='cover'
             maxHeight='500px'
         />

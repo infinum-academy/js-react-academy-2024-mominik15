@@ -1,8 +1,10 @@
 import { IUser } from "./User";
 
 export interface IReviewItem {
-    text: string;
+    id: number;
+    comment: string;
     rating: number;
+    showId: number;
     user: IUser;
 }
 

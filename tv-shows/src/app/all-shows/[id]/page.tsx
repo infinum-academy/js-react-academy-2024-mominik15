@@ -1,14 +1,12 @@
 'use client'
 
-import { AuthRedirect } from "@/components/shared/AuthRedirect/AuthRedirect";
-import styles from "../../page.module.css";
 import ShowSection from "@/components/features/shows/ShowSection/ShowSection";
+import { Main } from "@/components/core/Main/Main";
 
 export default function ShowDetails () {
     return (
-        <main className={styles.main}>
-            <AuthRedirect to='/login' condition='isLoggedOut'/>
+        <Main>
             <ShowSection />
-        </main>
+        </Main>
       );
 }

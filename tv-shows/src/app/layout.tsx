@@ -5,7 +5,6 @@ export const metadata = {
 
 import { Flex } from '@chakra-ui/react'
 import { Providers } from './providers'
-import { SidebarNavigation } from '@/components/shared/SidebarNavigation/SidebarNavigation'
   
   export default function RootLayout({
     children,
@@ -19,8 +18,7 @@ import { SidebarNavigation } from '@/components/shared/SidebarNavigation/Sidebar
         </head>
         <body>
           <Providers>
-            <Flex direction='row'>
-              <SidebarNavigation />
+            <Flex direction='row' height='100%'>
               {children}
             </Flex>
           </Providers>

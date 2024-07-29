@@ -1,10 +1,12 @@
+'use client'
+
 import { RegistrationForm } from "@/components/features/auth/RegistrationForm/RegistrationForm";
-import { Container } from "@chakra-ui/react";
+import { EntryContainer } from "@/components/shared/EntryContainer/EntryContainer";
 
 export default function Register() {
     return (
-        <Container background="grey.50">
+        <EntryContainer>
             <RegistrationForm />
-        </Container>
+        </EntryContainer>
     );
 }

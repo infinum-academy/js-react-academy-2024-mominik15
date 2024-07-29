@@ -1,40 +1,65 @@
 import { IReviewItem } from "@/typings/Review";
 import { Flex, IconButton, Image, Text } from "@chakra-ui/react";
 import { DeleteIcon } from '@chakra-ui/icons';
-import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
+import useSWRMutation from "swr/mutation";
+import { swrKeys } from "@/fetchers/swrKeys";
+import { authenticatedDeleter } from "@/fetchers/authenticatedMutators";
+import { UserImage } from "@/components/core/UserImage/UserImage";
+import { mutate } from "swr";
 
 interface IReviewItemProps {
     reviewItem: IReviewItem;
-    onDeleteReview: (review : IReviewItem) => void;
 }
 
-export const ReviewItem = ({ reviewItem, onDeleteReview }: IReviewItemProps) => {
+export const ReviewItem = ({ reviewItem }: IReviewItemProps) => {
+    const { trigger } = useSWRMutation(swrKeys.review(reviewItem.id.toString()), authenticatedDeleter, {
+        onSuccess: () => {
+            mutate(`/reviews/${reviewItem.showId.toString()}`);
+        }
+    });
+
+    const onDeleteAction = async (reviewItem : IReviewItem) => {
+        await trigger(reviewItem.id);
+    };
+
+    const userDataString = localStorage.getItem('userData') as string;
+    const loggedInUserEmail = JSON.parse(userDataString).email;
+    const reviewerEmail = reviewItem.user.email;
+    const isByCurrentUser = reviewerEmail === loggedInUserEmail;
+
     return (
-        <Card
-            direction='column'
-            background='#3d363d'
+        <Flex
+            direction='row'
+            background='purple'
             width='100%'
-            borderRadius={10}
+            borderRadius='common'
             color='white'
+            padding={5}
+            gap={3}
+            justifyContent='space-between'
         >
-            <CardHeader display='flex' margin='0' padding={1.5}>
-                <Image alt='user' src={reviewItem.user.avatarUrl} borderRadius={4} marginRight={2} />
-                <Text as='i'>{reviewItem.user.email}</Text>
-            </CardHeader>
-            <CardBody padding={1.5}>
-                <Text>{reviewItem.text}</Text>
-            </CardBody>
-            <CardFooter justifyContent='space-between' alignItems='center' padding={1.5}>
-                <Flex>
-                    { Array(reviewItem.rating).fill(1).map((_n, index) => {
-                        return <Image alt='full_star' key={index} src='/full_star.png' width={5} />
-                    })}
-                    { Array(5 - reviewItem.rating).fill(1).map((_n, index) => {
-                        return <Image alt='empty_star' key={index} src='/empty_star.png' width={5} />
-                    })}
+            <Flex direction={{base: 'column', md: 'row'}} gap={4}>
+                <Flex display='flex' margin='0' direction='row'>
+                    <UserImage url={reviewItem.user.avatarUrl}/>
+                    <Flex direction='column' gap={2} marginLeft={2}>
+                        <Text as='b'>{reviewItem.user.email}</Text>
+                        <Flex gap={2}>
+                            <Text>{reviewItem.rating}/5</Text>
+                            <Flex>
+                                { Array(reviewItem.rating).fill(1).map((_n, index) => {
+                                    return <Image alt='full_star' key={index} src='/full_star.svg' width={5} height={5} />
+                                })}
+                            </Flex>
+                        </Flex>
+                    </Flex>
                 </Flex>
-                <IconButton aria-label="Delete todo" colorScheme="red" icon={<DeleteIcon />} onClick={() => onDeleteReview(reviewItem)} w="48px" />
-            </CardFooter>
-        </Card>
+                <Flex padding={1.5} align='left'>
+                    <Text align='start'>{reviewItem.comment}</Text>
+                </Flex>
+            </Flex>
+            <Flex alignItems='center' padding={1.5}>
+                { isByCurrentUser && <IconButton borderRadius='full' aria-label="Delete todo" colorScheme="red" icon={<DeleteIcon />} onClick={() => onDeleteAction(reviewItem)} w="40px" h="40px" /> }
+            </Flex>
+        </Flex>
     );
 }

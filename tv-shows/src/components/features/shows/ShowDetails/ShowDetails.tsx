@@ -11,18 +11,24 @@ export const ShowDetails = ({ show, hasReviews }: IShowDetails) => {
     return (
         <Flex
             direction='column'
-            background='#3d363d'
-            color='white'
+            background='white'
+            color='purple'
             border='none'
-            borderRadius={10}
+            borderRadius='common'
             marginBottom={7}
         >
             <ShowImage url={show.imageUrl} title={show.title} />
-            <Flex direction='column' padding={5}>
-                <Heading>{show.title}</Heading>
-                <Text>{show.description}</Text>
-                { hasReviews && <Text>{show.averageRating}</Text> }
-                { !hasReviews && <Text as='i'>No ratings</Text> }
+            <Flex direction={{base: 'column', md: 'row'}} padding={10} gap={3}>
+                <Flex direction='column' flex='1'>
+                    <Heading>{show.title}</Heading>
+                    { hasReviews && <Flex>
+                        <Image src='/rating_symbol.svg' alt='star' marginRight={1} />
+                        <Text>{show.averageRating}/5</Text>
+                    </Flex>
+                    }
+                    { !hasReviews && <Text as='i'>No ratings</Text> }
+                </Flex>
+                <Text flex='1'>{show.description}</Text>
             </Flex>
         </Flex>
     );

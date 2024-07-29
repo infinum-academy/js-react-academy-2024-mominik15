@@ -1,12 +1,12 @@
 'use client';
 
-import styles from "../page.module.css";
+import { Main } from "@/components/core/Main/Main";
 import { ShowsList } from "@/components/shared/ShowsList/ShowsList";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-        <ShowsList topRated={true} />
-    </main>
+    <Main>
+      <ShowsList topRated={true} />
+    </Main>
   );
 }

@@ -2,13 +2,13 @@
 
 import { LoginForm } from "@/components/features/auth/LoginForm/LoginForm";
 import { AuthRedirect } from "@/components/shared/AuthRedirect/AuthRedirect";
-import { Container } from "@chakra-ui/react";
+import { EntryContainer } from "@/components/shared/EntryContainer/EntryContainer";
 
-export default function Register() {
+export default function Login() {
     return (
-        <Container background="grey.50">
+        <EntryContainer>
             <AuthRedirect to='/all-shows' condition='isLoggedIn'/>
             <LoginForm />
-        </Container>
+        </EntryContainer>
     );
 }
