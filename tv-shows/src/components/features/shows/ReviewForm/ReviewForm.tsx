@@ -35,6 +35,8 @@ export const ReviewForm = () => {
         reset();
     };
 
+    const isEnabled = Boolean(getValues('comment') && getValues('rating'));
+
     return (
         <chakra.form
             background='darkPurple'
@@ -84,7 +86,13 @@ export const ReviewForm = () => {
                             );
                         })}
                 </FormControl>
-                <Button variant={(getValues('comment') && getValues('rating')) ? 'solid' : 'disabled'} colorScheme="purple" type='submit'>POST</Button>
+                <Button
+                    isDisabled={isEnabled ? false : true}
+                    variant={isEnabled ? 'solid' : 'disabled'}
+                    type='submit'
+                >
+                    POST
+                </Button>
             </Flex>
         </chakra.form>
     );

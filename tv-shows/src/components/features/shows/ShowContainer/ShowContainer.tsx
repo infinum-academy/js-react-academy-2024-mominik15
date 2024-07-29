@@ -36,7 +36,15 @@ export default function ShowContainer({ showProp } : IShowContainerProps) {
     const hasReviews = reviewList.reviews.length > 0;
 
     return (
-        <Flex direction='column' backgroundColor='#2e0033' position='sticky' flexGrow={1} padding={10}>
+        <Flex
+            direction='column'
+            backgroundColor='darkPurple'
+            position='sticky'
+            flexGrow={1}
+            padding={{base: 3, md: 10}}
+            height='100vh'
+            overflow='auto'
+        >
             <ShowDetails show={showProp} hasReviews={hasReviews} />
             <ShowReviewSection reviewList={reviewList} />
         </Flex>
