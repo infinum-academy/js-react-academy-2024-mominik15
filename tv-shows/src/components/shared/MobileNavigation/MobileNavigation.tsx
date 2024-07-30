@@ -32,7 +32,9 @@ export const MobileNavigation = ({onLogOut}: IRegularNavigationProps) => {
                 direction='row'
                 padding='12px 16px'
             >
-                <Image src='/logo.svg' alt='TV show logo' width='200px' height='40px' />
+                <Button variant='invisible' as={NextLink} href='/all-shows/' width='200px'>
+                    <Image src='/logo.svg' alt='TV show logo' />
+                </Button>
                 <Flex alignItems='center'>
                     <Planner />
                     <Button onClick={onOpen} variant='ghost' width='30px' height='30px' padding={5}>
@@ -52,7 +54,7 @@ export const MobileNavigation = ({onLogOut}: IRegularNavigationProps) => {
                     marginBottom='none'
                     marginTop='none'
                     borderRadius='0'
-                    borderTopLeftRadius='25px'
+                    borderTopLeftRadius='common'
                     alignSelf='flex-end'
                     marginLeft='auto'
                 >

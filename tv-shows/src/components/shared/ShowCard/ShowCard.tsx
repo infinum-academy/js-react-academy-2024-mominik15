@@ -30,7 +30,7 @@ export const ShowCard = ({ imageUrl, title, rating, id } : IShowCard) => {
                     objectFit='cover'
                     width='240px'
                     height='300px'
-                    borderTopRadius='25px'
+                    borderTopRadius='common'
                 />
             </CardHeader>
             <CardBody flexDirection='column' paddingTop='18px' paddingLeft='18px'>

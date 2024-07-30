@@ -42,7 +42,7 @@ export default function ShowContainer({ showProp } : IShowContainerProps) {
             position='sticky'
             flexGrow={1}
             padding={{base: 3, md: 10}}
-            height='100vh'
+            height={{base: 'calc(100vh-100px)', md: '100vh'}}
             overflow='auto'
         >
             <ShowDetails show={showProp} hasReviews={hasReviews} />
