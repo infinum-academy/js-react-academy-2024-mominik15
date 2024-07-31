@@ -22,7 +22,8 @@ const SidebarNavigation = helpers.defineMultiStyleConfig({
                 width: '100%',
                 position: 'sticky',
                 top: '0',
-                padding: '0'
+                padding: '0',
+                zIndex: '1'
             }
         }
     },

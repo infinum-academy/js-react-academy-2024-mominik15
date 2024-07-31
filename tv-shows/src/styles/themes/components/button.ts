@@ -38,6 +38,10 @@ const Button = defineStyleConfig({
             bg: 'white',
             color: 'purple',
             opacity: '50%'
+        },
+        invisible: {
+          background: 'none',
+          padding: 0
         }
       }
 });

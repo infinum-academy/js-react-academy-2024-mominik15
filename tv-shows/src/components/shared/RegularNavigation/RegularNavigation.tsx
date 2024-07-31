@@ -10,7 +10,9 @@ export const RegularNavigation = ({onLogOut}: IRegularNavigationProps) => {
     return (
         <Card height='100%' width='100%' backgroundColor='darkPurple' color='white' border='none' borderRadius={0} padding={0}>
             <CardHeader>
-                <Image src='/logo.svg' alt='TV show logo' />
+                <Button variant='invisible' as={NextLink} href='/all-shows/' width='100%'>
+                    <Image src='/logo.svg' alt='TV show logo' />
+                </Button>
             </CardHeader>
             <CardBody display='flex' flexDirection='column' padding='31px' gap='19px'>
                 <Button variant='ghost' as={NextLink} href='/all-shows/'>All shows</Button>
